@@ -1,0 +1,377 @@
+@import url(../form/dialog.css);
+@font-face {
+    font-family: misa_fonts;
+    src: url(../../assets/fonts/notosans-regular.2cb88a13.woff2);
+}
+.dialog{
+    
+    z-index:4;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    top: 0px;
+    bottom: 0;
+    left: 0px;
+    right: 0;
+    
+}
+.dialog-form{
+    font-family: misa_fonts;
+    font-size: 13px;
+    width: 850px;
+    height: 600px;
+    background-color: #fff;
+    display: flex;
+    /* margin-left: 15%;
+    margin-top: 15px; */
+   margin: auto;
+   padding:10px 20px;
+    flex-direction: column;
+   
+   
+}
+.phone, .mobile-phone, .Email, .BankName, .BankNum,  .BankPlace{
+    width: 240px;
+}
+.PosName {
+    width: 380px;
+}
+.IdenPlace{
+    width: 400px;
+}
+input {
+    border-radius: 3px;
+}
+.input-content input{
+    outline: none;
+}
+
+.input-content input:focus {
+    border: 1px solid #2f9d22;
+}
+.form-header{
+    display: flex;
+   justify-content: space-between;
+    height: 50px;
+    padding: 16px 16px 20px; 
+}
+.form-header-left{
+    color: #111;
+    display: flex;
+    
+    width: 700px;
+}
+.form-header-left .form-header-checkbox{
+    margin-left: 16px;
+    display: flex;
+    margin-top: 8px;
+}
+.form-header-checkbox input{
+    width: 20px;
+   
+   
+}
+.form-header-checkbox p{
+    font-size: 13px;
+    margin-top: 4px;
+    margin-left: 4px;
+}
+.form-header-right{
+  
+   width:100px;
+    display: flex;
+    margin-right: -40px;
+    
+}
+.icon-help{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -89px -145px;
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+.icon-close{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -147px -147px;
+    width: 24px;
+    height: 24px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+.form-content{
+   
+}
+.m-row{
+    height: 40px;
+    display: flex;
+    color: #111;
+    margin-bottom: 30px;
+}
+.input-content{
+    margin-left: 24px;
+}
+.input-content input {
+    border: 1px solid #bbb;
+    padding: 8px;
+    box-sizing: border-box;
+    height: 30px;
+    color: #111;
+}
+.input-content label{
+    display: flex;
+    font-weight:bold;
+    margin-bottom: 4px;
+}
+.warning-name{
+    height: 20px ;
+    background-color: #000;
+    color: #fff;
+    font-size: 10px;
+    position: absolute;
+    padding: 4px 8px;
+    z-index: 5;
+    margin-left: 120px;
+    margin-top: -20px;
+    
+    display: none;
+    
+}
+.Combobox-form{
+    display: flex;
+    position: relative;
+}
+.combobox-input{
+    width: 200px;
+    border: 1px solid #bbb;
+    height: 30px;
+    padding: 6px 8px;
+    box-sizing: border-box;
+}
+.icon-drop-down{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1800px -478px;
+	width: 16px;
+	height: 16px;
+    position: absolute;
+    margin-left: 95%;
+   margin-top: 12px;
+}
+.combobox{
+width: 460px;
+position: absolute;
+margin-top: 31px;
+background-color: #fff;
+border: 1px solid #bbb;
+}
+.combobox-item{
+    padding: 10px;
+    display: flex;
+}
+.border-bottom{
+    border-bottom: 1px solid #bbb;
+}
+.combobox-item:hover{
+    background-color: #2f9d22;
+    color:#fff
+}
+.combobox-item:hover  .combobox-item-icon{
+    display: block;
+}
+.combobox-item-icon{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1273px -363px;
+	width: 16px;
+	height: 16px;
+	
+}
+.combobox-item-content{
+}
+.warning-code{
+    height: 20px ;
+    background-color: #000;
+    color: #fff;
+    font-size: 10px;
+    position: absolute;
+    padding:4px 8px;
+    z-index: 5;
+    margin-left: 70px;
+    margin-top: -20px;
+    display: none;
+}
+.warning-unit{
+    height: 20px ;
+    background-color: #000;
+    color: #fff;
+    font-size: 10px;
+    position: absolute;
+    padding: 4px 8px;
+    z-index: 5;
+    margin-left: 15%;
+    margin-top: -20px;
+    display: none;
+    
+    
+}
+.Iden:hover .tooltip,
+.EmpName:hover .warning-name,
+.EmpUnit:hover .warning-unit,
+.EmpCode:hover .warning-code{
+    display: block;
+}
+.Code{
+    position: relative;
+    width: 150px;
+}
+.Name{
+    min-width: 210px;
+    position: relative;
+}
+.Unit{
+    position: relative;
+}
+.Dob{
+    min-width: 170px;
+}
+.Address{
+    width: 810px;
+}
+input[type='radio']:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    
+}
+input[type='radio']:checked:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 15px;
+    top: 0px;
+    left: 0px;
+    position: relative;
+    background: url(../../assets/icon/radio.svg);
+    /* color:green; */
+    content: '';
+    display: inline-block;
+    visibility: visible;
+   
+}
+.radio-group{
+    display: flex;
+}
+.radio-group label{
+    margin: 8px;
+}
+.radio-group input{
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+input::placeholder{
+    color: #bbb;
+    font-style: italic;
+}                         
+.input-content select{
+    height: 30px;
+    min-width: 450px;
+}  
+.input-content .IdenNum{
+    min-width: 210px;
+} 
+.input-content .IdenDate{
+    min-width: 170px;
+}           
+.form-footer{
+    height: 50px;
+    
+   border-top: 1px solid #bbb;
+   
+   display: flex;
+   justify-content: space-between;
+   /* padding: 24px; */
+   margin: 20px;
+   padding: 10px 0px;
+}
+.cancel{
+    height: 35px;
+    margin-right: 8px;
+    min-width: 60px;
+    border:1px solid #555;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: #fff;
+    cursor: pointer;
+}
+.btn-store{
+    height: 35px;
+    margin-right: 8px;
+    min-width: 60px;
+    border:1px solid #555;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: #fff;
+    cursor: pointer;
+    
+}
+.cancel:hover,
+.btn-store:hover{
+    background:#ddd;
+    border: none;
+    
+}
+.btn-stor-add{
+    height: 35px;
+    background-color: #2f9d22;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    min-width: 120px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.input-error{
+    border: 1px solid red !important;
+}
+
+.red{
+    color: red;
+
+}
+.tooltip{
+    background-color: #000;
+    position: absolute;
+    margin-top: -24px;
+    margin-left: 70px;
+    padding: 6px 6px;
+    font-size: 11px;
+    color: #fff;
+    display: none;
+}
+/* .cbbUnit {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    text-indent: 5px;
+    width: 460px;
+    height: 32px;
+    border: none;
+    border-radius: 2px;
+    position: relative;
+    line-height: 32px;
+} */
+
+.input-error {
+    border: 1px solid red !important;
+}
+
+.errorBorder {
+    border: 1px solid red !important;
+}
+.bg-color{
+    background-color: #eee;
+}
+

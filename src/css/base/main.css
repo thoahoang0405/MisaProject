@@ -1,0 +1,435 @@
+.main{
+    background-color: #eceef1;
+    height: 100vh;
+    margin-top: 48px;
+    z-index: 2;
+    left: 176px;
+    width: calc(100% - 178px);
+    position: fixed;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  
+    
+}
+@media (max-width: 768px) {
+    .main{
+        width: calc(100% - 50px);
+        left: 66px;
+        font-size: 12px;
+    }
+    .page{
+        display: none;
+    }
+    .td{
+        
+    }
+    .main-table{
+        padding: 0;
+        margin: 8px;
+       
+        padding-right: 10px;
+    }
+    .page{
+        display: none!important;
+    }
+    .paging-left{
+        margin-top: 6px;
+    }
+    
+}
+.Emp-title{
+    color: black;
+}
+.main-header{
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 16px 16px 16px;
+}
+.btn-add{
+    background-color:#2f9d22 ;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    min-width: 150px;
+    height: 36px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+.btn-stor-add:hover,
+.btn-add:hover{
+    background-color: #35bf22;
+    cursor: pointer;
+}
+.main-table{
+    background-color: #fff;
+    padding: 10px;
+   margin: 16px;
+    
+}
+.main-table-header{
+    display: flex;
+    justify-content: flex-end;
+}
+.main-table-header input::placeholder{
+    color: #bbb;
+    font-style: italic;
+   
+}
+.main-table-header input{
+    width: 224px;
+    height: 32px;
+    padding: 4px;
+    margin-right: 8px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.icon-search{
+    background: url('../../assets/icon/search.png') no-repeat;
+	background-size: 20px;
+    background-position: right center;
+  
+   
+   
+}
+.icon-refresh{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -425px -201px;
+	width: 20px;
+	height: 21px;;
+    color: #bbb;
+     margin-top: 8px;
+     
+}
+#refresh{
+    width: 30px;
+    height: 30px;
+    z-index: 2;
+    cursor: pointer;
+}
+/* //#edeef2 */
+/* nút #2f9d22
+    chữ sửa: #327eb0
+    chữ dữ liệu: #727272 */
+.m-table{
+   
+    margin-bottom: 10px;
+    background-color: #fff;
+    /* height: 100vh; */
+    height: 410px;
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: auto;
+    /* overflow:scroll; */
+    
+    
+}
+ table{
+    color: #111;
+    width: auto;
+    height: auto;
+    border-spacing: 0px;
+    margin-top: 16px;
+    
+    
+}
+tbody tr td{
+    color: #727272;
+}
+tbody tr:hover{
+    background-color: #f2f9ff;
+}
+tbody tr:hover .checkbox,
+tbody tr:hover .td-item-final{
+    background-color: #f2f9ff !important;
+}
+
+input[type='checkbox']:after {
+    font-size: 30px;
+     width: 16px !important;
+     border: 1px solid  #ccc;
+     transform: rotate(-90deg);
+     transition: 0.2s;
+    
+    
+    
+}
+input[type='checkbox']:checked:after {
+    
+    height: 16px;
+    top: 0px;
+    left: 0px;
+    position: relative;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1224px -360px;
+	
+    background-color: #ffff;
+    border: 1px solid green;
+    content: '';
+    display: inline-block;
+    transform: rotate(0deg);
+    
+   
+    /* transition-delay: 2s; */
+}
+.checkbox{
+    
+
+}
+.checkbox-checked{
+    
+
+}
+
+.checkbox-rotate{
+    transform: rotate(0deg);
+
+}
+thead tr{
+    background-color:#e5e8ec ;
+    height: 35px;
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+   
+}
+thead >.minWidth{
+    min-width: 150px !important;
+    width: 100%;
+}
+thead tr th {
+    
+    width: auto;
+}
+tr{
+    height: 44px;
+    
+}
+th{
+    border-bottom: 1px solid #c7c7c7;
+    border-right: 1px dotted #c7c7c7 ;
+    text-align: left;
+    padding: 4px;  
+}
+td{
+    border-bottom: 1px solid #c7c7c7;
+    border-right: 1px dotted #c7c7c7 ;
+    padding: 4px 6px;
+    text-align: left;   
+}
+
+.sticky-left-top{
+    position: sticky;
+    z-index: 0;
+    left:0;
+    top: 0;
+    background-color: #e5e8ec ;
+}
+.sticky-left{
+    position: sticky;
+    z-index: 0;
+    left:0;
+    background-color: #fff ;
+}
+.sticky-right-top{
+    position: sticky;
+    z-index: 0;
+    right: 0;
+    top: 0;
+    background-color:#e5e8ec ;
+}
+.sticky-right{
+    position: sticky;
+    right: 0;
+    background-color: #fff;
+    z-index: 0;
+}
+#Dob-error,
+#Email-error{
+    display: none;
+    color: #ff0000;
+}
+.td-item-final{
+    color: #0075c0;
+    border-right: none;
+}
+.th-item-final{
+    border-right: none;
+}
+.td-func {
+    color:#0075c0;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px;
+    position: relative;
+    height: 30px;
+}
+.icon-down{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -900px -365px;
+	width: 8px;
+	height: 5px;
+    z-index: 1;
+   
+}
+#btnMenu{
+    height: 7px;
+    width: 10px;
+    padding: 6px;
+    z-index: 3;
+    cursor: pointer;
+}
+	
+  
+   
+   
+
+
+
+.border-blue{
+    border: 1px solid #0075c0; 
+}
+.edit-text{
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.paging{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 4px;
+    background-color: #fff;
+    color: #aaa;
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
+    height:auto;
+    
+    
+}
+.page{
+    width: 220px;
+    height: 36px;
+    display: flex;
+    
+    border: 1px solid #222;
+    color:#000;
+    
+}
+.content-page{
+    min-width: 170px;
+    margin-left: 6px;
+    margin-right: 10px;
+    margin-top: 10px;
+    position: relative;
+    
+}
+.dropup-page{
+   
+    
+}
+.icon-dropup{
+    background: url('../../assets/icon/dropdown2.png') no-repeat 4px  ;
+   width: 20px;
+   height: 20px;
+    
+   
+    align-items: center;
+   padding:8px 7px;
+   cursor: pointer;
+   
+   
+    
+}
+.icon-dropup:hover{
+    background-color: #ddd;
+}
+.iconrotate{
+    transform: rotate(180deg)!important;
+}
+.item-dropup{
+    padding: 10px;
+    
+}
+.item-up{
+    position: absolute;
+    background-color: #fff;
+    margin-left: -187px;
+    margin-top: -230px;
+    width: 220px;
+    border: 1px solid #bbb;
+    /* display: none; */
+   
+}
+.item-dropup:hover{
+    background-color: #2f9d22;
+    color: #fff;
+}
+.paging-left strong{
+    color:#000;
+}
+.paging-left{
+    color: #111;
+    margin-left: 0px;
+ 
+    
+}
+.paging-right{
+    display: flex;
+    margin-right: 24px; 
+    color: #bbb;
+    
+    
+}
+.paging-right select{
+    min-width: 170px;
+    height: 35px;
+}
+.before-text{
+    color: rgb(104, 102, 102);
+    margin: 8px;
+    margin-top: 10px;
+}
+.more-icon{
+    background: url('../../assets/icon/icons8-more-24.png');
+    width: 24px;
+    height: 24px;
+    color: #727272;
+    margin-top: 6px;
+    margin-right: 4px;
+   
+}
+.button-unclick{
+    border: none;
+    background-color: #fff;
+}
+.button-clicked{
+    padding: 2px; 
+    background-color: #fff; 
+    border: 1px solid #bbb
+}
+.paging button{
+    margin: 8px 4px 2px 0px;
+    width: 20px;
+    height:20px;
+}
+.after-text{
+    color: #111;
+    margin: 8px;
+    margin-top: 10px;
+}
+.tooltip-Iden{
+    position: absolute;
+    background-color: #000;
+    color:#fff;
+    margin-top: -30px;
+    font-size: 11px;
+    padding: 6px;
+    display: none;
+}
+.iden-tool:hover .tooltip-Iden{
+    display: block;
+    
+}
+.btnEditFocus{
+    border: 1px solid #0075c0;
+}

@@ -1,0 +1,172 @@
+.menu{
+    background-color:  #393a3d;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    margin-bottom: -8px;
+    position: fixed;
+    z-index: 1;
+    
+}
+router-link .menu-body-item{
+   
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+    
+}
+@media (max-width: 768px) {
+    .menu-header-logo{
+        display:none;
+    }
+    .menu-item-text{
+        display: none;
+       
+    }
+    .menu-body-item{
+        margin-left: 10px;
+    }
+    
+}
+.menu-header{
+    height: 48px;
+    width: 100%;
+    display: flex;
+    font-family: misa_font bold;
+    padding: 8px 16px;
+    
+}
+.menu-header-sidebar{
+    background: url('../../assets/img/toggle-white.png') no-repeat ;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    margin-right: 10px;
+    
+    margin-top: 4px;
+}
+.menu-header-logo{
+    background: url('../../assets/icon/Logo_Module_TiengViet_White.66947422.svg') no-repeat ;
+	width: 110px;
+	
+    background-size: contain;
+   
+   
+}
+.menu-body-item{
+    display: flex;
+    height: 30px;
+    color: #fff;
+    padding-left: 10px;
+    padding-right: 14px;
+    padding-top: 9px;
+    
+    
+}
+.border-left{
+    border-left: 3px solid #2f9d22 ;
+    background-color: rgba(0, 0, 0, 0.2);
+    
+}
+.menu-body-item:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+ 
+   
+}
+.menu-body{
+    height: calc(100% - 48px);
+    padding-bottom: 10px;
+}
+.menu-item-text{
+    color: #fff;
+    margin-left: 8px;
+    text-decoration: transparent;
+}
+.menu-item-overview{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -33px -1630px;
+    width: 24px;
+    height: 24px;
+    
+}
+.menu-item-cash{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -78px -1631px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-deposit{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -121px -1633px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-order{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -165px -1632px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-cart{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -206px -1631px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-bill{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -254px -1632px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-store{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat  -294px -1632px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-tool{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -339px -1633px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-asset{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -382px -1632px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-tax{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -427px -1634px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-price{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -471px -1633px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-total{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -514px -1632px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-budget{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -382px -1664px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-report{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -552px -1636px;
+    width: 24px;
+    height: 24px;
+   
+}
+.menu-item-fina{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -207px -1667px;
+    width: 24px;
+    height: 24px;
+   
+}

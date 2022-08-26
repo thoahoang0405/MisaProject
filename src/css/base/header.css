@@ -1,0 +1,107 @@
+.header{
+   background-color: #fff;
+    /* color:#fff; */
+    display: flex;
+    color: #000;
+    justify-content: space-between;
+    font-family:  misa_font bold;
+    height: 48px;
+    left:180px;
+    width: calc(100% - 180px);
+    z-index: 0;
+    position: fixed;
+   
+    
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+    .header{
+        
+        width: calc(100% - 180px);
+     }
+     .header-select{
+        display: none;
+     }
+    
+}
+@media (max-width: 768px) {
+     .header{
+        margin-left: 70px;
+        max-width: calc(100% - 50px);
+        width: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-left: 0px;
+     }
+     .header-select{
+        display: none;
+     }
+     .header-right{
+    
+     }
+}
+.header-left{
+    display: flex;
+    color: #000;
+    margin-top: 14px;
+   
+    
+}
+.menu-icon{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -847px -35px ;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    margin:0px 10px;
+}
+.header-select{
+    font-weight: 400;
+    padding-left: 10px;
+}
+#select-header{
+    border: none;
+}
+.header-right{
+    display: flex;
+    color: #000;
+  
+    margin-top: 10px;
+   
+}
+.notice-icon{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -788px -30px;
+    width: 24px;
+    height: 24px;
+    background-size: auto;
+    margin-right: 16px;
+    margin-top: 4px;
+   
+}
+.avatar-icon{
+   
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -352px -894px;
+    /* background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -788px -30px; */
+	
+    width: 32px;
+    height: 32px;
+    /* background-size:  contain; */
+    border-radius: 50%;
+   
+     /* border: 1px solid #bbbb;  */
+     margin-left: 16px;
+    margin-top: -2px;
+     margin-right: 4px;
+}
+.name-user{
+    margin-right: 4px;
+    margin-top: 6px;
+    font-weight: 700;
+}
+.drop-icon{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1800px -478px;
+    width: 14px;
+    height: 14px;
+    margin-left: 4px;
+    margin-top: 12px;
+    padding-right: 16px;
+}
