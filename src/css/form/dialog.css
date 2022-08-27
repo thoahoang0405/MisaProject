@@ -1,18 +1,19 @@
 
 #loading-data{
-    width: 100%;
+   
     z-index: 10;
     background-color: rgba(241, 241, 241, 0.5);
-    position: absolute;
-    
+    position: absolute;   
     height: 100vh;
     display: flex;
     align-items: center ;
     justify-content: center;
-    /* display: none; */
+    width: calc(100% - 178px);
+    left: 176px;
+    
 }
 .icon-loading{
-    /* background: url(../../assets/loading.svg) no-repeat; */
+   
     width: 40px;
     height: 40px;
     position: absolute;

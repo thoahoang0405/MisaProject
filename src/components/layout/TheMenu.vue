@@ -86,11 +86,24 @@
   
 </template>
 <style >
+@font-face {
+    font-family: misa_font bold;
+    src: url(../../assets/fonts/notosans-bold.3ede5aff.woff2);
+}
 a.active{
      border-left: 5px solid #2f9d22 ;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(104, 102, 102, 0.5);
+    color: #fff;
+    font-family: misa_font bold;
 
 }
+ a.active .menu-item-overview{
+     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -33px -1587px;
+	width: 18px;
+	height: 20px;
+
+}
+
 
 @import url('../../css/base/menu.css');
 
@@ -111,13 +124,7 @@ export default {
     },
     methods: {
        
-        addBorder(id) {
-            this.activeId=id
-
-            // $(this).find('.menu-body-item').toggleClass('border-left')
-
-        }
-
+        
     }
 }
 </script>

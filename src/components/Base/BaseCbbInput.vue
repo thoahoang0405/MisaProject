@@ -6,7 +6,7 @@
     </div>
     <div v-show="isShowOption" class="option-cbb">
       <table>
-        <tr  v-for="dpm in departments" v-bind:key="dpm.DepartmentId" @click="addValue(dpm)" class="option-cbb-item ">
+        <tr  v-for="dpm in departments" :class="{act: isActive==dpm.DepartmentID}" v-bind:key="dpm.DepartmentID" @click="addValue(dpm)" class="option-cbb-item ">
         <td class="icon-check" ></td>
         <td >{{ dpm.DepartmentName }}</td>
         </tr>
@@ -23,6 +23,7 @@ export default {
       departments: {},
       isShowOption: false,
       val: "",
+      isActive: ""
     };
   },
   
@@ -61,6 +62,7 @@ export default {
       this.DepartmentID = dpm.DepartmentID;
       this.$emit("dpmId", dpm.DepartmentID);
       this.isShowOption = false;
+      this.isActive= dpm.DepartmentID
     },
     /**
      * ẩn combobox
@@ -109,7 +111,7 @@ export default {
   font-size: 13px;
   margin-top: 4px;
   margin-bottom: 10px;
-  width: 380px;
+  width: 392px;
   height: 32px;
   border-radius: 2px;
   position: relative;
@@ -152,12 +154,12 @@ export default {
 .option-cbb {
 
   position: absolute;
-  width: 380px;
+  width: 392px;
   top: 35px;
   border: 1px solid #b8bcc3;
   background-color: #fff;
   border-radius: 2px;
-  border-bottom: none;
+
 
 }
 .icon-check{
@@ -170,13 +172,29 @@ export default {
 }
 
 .option-cbb table {
-  width: 380px;
+  width: 392px;
+ 
+}
+.option-cbb{
+  overflow-y:auto;
+  height: 200px;
+ 
+}
+::-webkit-scrollbar {
+  width: 1px;
+}
+.act{
+  background-color:#35bf22 ;
+  color: #f4f5f8;
 }
 
 .option-cbb-item:hover {
   color: #f4f5f8;
   background-color: #35bf22;
   cursor: pointer;
+}
+.option-cbb-item:hover .icon-check{
+  color: #35bf22;
 }
 
 .option-cbb table tr td {

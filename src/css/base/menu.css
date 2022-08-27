@@ -86,14 +86,32 @@ router-link .menu-body-item{
     height: 24px;
     
 }
+a.active .menu-item-overview{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -33px -1587px;
+    width: 24px;
+    height: 24px;
+
+}
 .menu-item-cash{
     background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -78px -1631px;
     width: 24px;
     height: 24px;
    
 }
+a.active .menu-item-cash{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -78px -1588px;
+    width: 24px;
+    height: 24px;
+   
+}
 .menu-item-deposit{
     background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -121px -1633px;
+    width: 24px;
+    height: 24px;
+   
+}
+a.active .menu-item-deposit{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -121px -1590px;
     width: 24px;
     height: 24px;
    

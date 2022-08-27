@@ -20,42 +20,79 @@
 .dialog-form{
     font-family: misa_fonts;
     font-size: 13px;
-    width: 850px;
+    width: 900px;
     height: 600px;
     background-color: #fff;
     display: flex;
     /* margin-left: 15%;
     margin-top: 15px; */
    margin: auto;
-   padding:10px 20px;
+   padding:10px 32px;
     flex-direction: column;
+    box-sizing: border-box;
    
    
 }
-.phone, .mobile-phone, .Email, .BankName, .BankNum,  .BankPlace{
+.Iden:hover .tooltip,
+.EmpName:hover .warning-name,
+.EmpUnit:hover .warning-unit,
+.EmpCode:hover .warning-code{
+    display: block;
+}
+
+.Code{
+    position: relative;
+    width: 150px;
+    margin-right: 8px;
+}
+.Name{
+    min-width: 235px;
+    position: relative;
+    margin-right: 26px;
+
+}
+.Unit{
+    position: relative;
+}
+.Dob{
+    min-width: 160px;
+    margin-right: 8px;
+}
+.Address{
+    width: 834px;
+}
+.phone, .mobile-phone, .Email, .BankName, .BankNum,  .BankPlace
+{
     width: 240px;
+   
 }
+.input-content .phone,.input-content .Email,.input-content .BankNum,.input-content .BankPlace{
+    margin-left: 8px;
+}
+
 .PosName {
-    width: 380px;
+    width: 392px;
+    margin-right: 26px;
 }
 .IdenPlace{
-    width: 400px;
+   
+    width: 418px;
 }
 input {
+    height: 32px !important;
+   
     border-radius: 3px;
 }
-.input-content input{
-    outline: none;
-}
+
 
 .input-content input:focus {
     border: 1px solid #2f9d22;
 }
 .form-header{
     display: flex;
-   justify-content: space-between;
-    height: 50px;
-    padding: 16px 16px 20px; 
+    justify-content: space-between;
+    
+    padding: 16px 0px; 
 }
 .form-header-left{
     color: #111;
@@ -69,9 +106,35 @@ input {
     margin-top: 8px;
 }
 .form-header-checkbox input{
-    width: 20px;
+    width: 18px;
    
    
+}
+.form-header-checkbox input[type='checkbox']:after { 
+     width: 16px !important;
+     border: 1px solid  #ccc;
+     transform: rotate(-90deg);
+     transition: 0.2s;
+    
+    
+    
+}
+.form-header-checkbox input[type='checkbox']:checked:after {
+    
+    height: 16px;
+    top: 7px;
+    left: 0px;
+    position: relative;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1224px -360px;
+	
+    background-color: #ffff;
+    border: 1px solid green;
+    content: '';
+    display: inline-block;
+    transform: rotate(0deg);
+    
+   
+    /* transition-delay: 2s; */
 }
 .form-header-checkbox p{
     font-size: 13px;
@@ -100,6 +163,7 @@ input {
     cursor: pointer;
 }
 .form-content{
+   padding-bottom: 24px;
    
 }
 .m-row{
@@ -108,15 +172,13 @@ input {
     color: #111;
     margin-bottom: 30px;
 }
-.input-content{
-    margin-left: 24px;
-}
+
 .input-content input {
     border: 1px solid #bbb;
     padding: 8px;
     box-sizing: border-box;
-    height: 30px;
     color: #111;
+    outline: none;
 }
 .input-content label{
     display: flex;
@@ -211,32 +273,10 @@ border: 1px solid #bbb;
     
     
 }
-.Iden:hover .tooltip,
-.EmpName:hover .warning-name,
-.EmpUnit:hover .warning-unit,
-.EmpCode:hover .warning-code{
-    display: block;
-}
-.Code{
-    position: relative;
-    width: 150px;
-}
-.Name{
-    min-width: 210px;
-    position: relative;
-}
-.Unit{
-    position: relative;
-}
-.Dob{
-    min-width: 170px;
-}
-.Address{
-    width: 810px;
-}
+
 input[type='radio']:after {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 15px;
     top: -2px;
     left: -1px;
@@ -251,7 +291,7 @@ input[type='radio']:checked:after {
     width: 20px;
     height: 20px;
     border-radius: 15px;
-    top: 0px;
+    top: 6px;
     left: 0px;
     position: relative;
     background: url(../../assets/icon/radio.svg);
@@ -265,7 +305,11 @@ input[type='radio']:checked:after {
     display: flex;
 }
 .radio-group label{
-    margin: 8px;
+    margin: 10px;
+    margin-top: 20px;
+}
+.radio-group p{
+    margin-top: 8px;
 }
 .radio-group input{
     width: 20px;
@@ -281,11 +325,17 @@ input::placeholder{
     min-width: 450px;
 }  
 .input-content .IdenNum{
-    min-width: 210px;
+    min-width: 245px;
+    
 } 
+.Iden{
+    margin-left: 26px;
+    margin-right: 8px;
+}
 .input-content .IdenDate{
-    min-width: 170px;
-}           
+    min-width: 165px;
+} 
+         
 .form-footer{
     height: 50px;
     
@@ -293,12 +343,11 @@ input::placeholder{
    
    display: flex;
    justify-content: space-between;
-   /* padding: 24px; */
-   margin: 20px;
-   padding: 10px 0px;
+  
+   padding: 24px 0px;
 }
 .cancel{
-    height: 35px;
+    height: 34px;
     margin-right: 8px;
     min-width: 60px;
     border:1px solid #555;
@@ -308,7 +357,7 @@ input::placeholder{
     cursor: pointer;
 }
 .btn-store{
-    height: 35px;
+    height: 34px;
     margin-right: 8px;
     min-width: 60px;
     border:1px solid #555;
@@ -325,7 +374,7 @@ input::placeholder{
     
 }
 .btn-stor-add{
-    height: 35px;
+    height: 34px;
     background-color: #2f9d22;
     color: #fff;
     border: none;

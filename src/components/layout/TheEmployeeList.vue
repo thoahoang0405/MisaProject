@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="main">
     <div class="main-header">
       <h1 class="Emp-title">{{ infoEmployee.info }}</h1>
@@ -8,17 +9,17 @@
     </div>
     <div class="main-table">
       <div class="main-table-header">
-        <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtSearch" class="icon-search" type="text"
+        <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtsearch" class="icon-search" type="text"
           :placeholder="infoEmployee.search" />
-        <div id="refresh" @click="filterEmployee" class="icon-refresh">
+        <div title="lấy lại dữ liệu" id="refresh" @click="filterEmployee" class="icon-refresh">
           <span id="" class="icon-refresh"> </span>
         </div>
       </div>
 
       <div id="m-table" class="m-table">
         <DropFunction v-show="isShowMenu" :empDeleteCode="emplyeeCode"
-          @closeDrop="showDropMenu" :employeeDelete="employeeDelete" :employeeDeleteId="employeeId"
-          :emplyeeCode="employeeCode" popupShow="{this.popup}"></DropFunction>
+          @closeDrop="hideDropMenu" :employeeDelete="employeeDelete" :employeeDeleteId="employeeId"
+          :emplyeeCode="employeeCode" :loadData="filterEmployee" popupShow="{this.popup}"></DropFunction>
 
         <table id="tbEmployee" class="table">
           <thead>
@@ -127,7 +128,7 @@
               </td>
               <td colspan="5">
                 <div class="td-item">
-                  <span class="table-text">{{ employee.gender }}</span>
+                  <span class="table-text">{{formatGender(employee.gender)  }}</span>
                 </div>
               </td>
               <td colspan="6">
@@ -187,19 +188,19 @@
             <div class="dropup-page">
               <div class="icon-dropup" @click="btnDropUp"></div>
               <div class="item-up" v-show="isShow">
-                <div class="item-dropup" pageSize="10" :value="pageDefault" @click="getPageDefault">
+                <div class="item-dropup" :class="{act: isActive=== '10'}"  pageSize="10" :value="pageDefault" @click="getPageDefault">
                   10 {{ infoEmployee.pageSize }}
                 </div>
-                <div class="item-dropup" pageSize="20" @click="getPageDefault">
+                <div class="item-dropup" :class="{act: isActive=='20'}" pageSize="20" @click="getPageDefault">
                   20 {{ infoEmployee.pageSize }}
                 </div>
-                <div class="item-dropup" pageSize="30" @click="getPageDefault">
+                <div class="item-dropup" :class="{act: isActive=='30'}" pageSize="30" @click="getPageDefault">
                   30 {{ infoEmployee.pageSize }}
                 </div>
-                <div class="item-dropup" pageSize="50" @click="getPageDefault">
+                <div class="item-dropup" :class="{act: isActive=='50'}" pageSize="50" @click="getPageDefault">
                   50 {{ infoEmployee.pageSize }}
                 </div>
-                <div class="item-dropup" pageSize="100" @click="getPageDefault">
+                <div class="item-dropup" :class="{act: isActive=='100'}" pageSize="100" @click="getPageDefault">
                   100 {{ infoEmployee.pageSize }}
                 </div>
               </div>
@@ -214,13 +215,17 @@
           </div>
         </div>
       </div>
+     
     </div>
+   
+  </div>
+  <LoadData v-show="loading"> </LoadData>
   </div>
   <EmployeeDetail v-show="isShowEmployeeDetail" :showDialog="isShowEmployeeDetail" @showDialog="functionShowDialog"
     :employeeDetail="employeeSelected" :employeeSelectedId="employeeId" :newEmployeeCode="newCode"
-    :formMode="formModeDetail" :loadData="employees" :code="empCode" :employeeCode="employeeCode"
-    :addOnclick="btnAddOnClick" />
-  <LoadData v-show="loading"></LoadData>
+    :formMode="formModeDetail"  :code="empCode" :employeeCode="employeeCode"
+    :addOnclick="btnAddOnClick" :loadData="filterEmployee" />
+  
   <popup v-show="isShowPopup"></popup>
 </template>
 <style>
@@ -234,6 +239,10 @@
   align-items: center;
   color: #111;
   font-size: 13px;
+}
+.act{
+  background-color: green;
+  color:#fff;
 }
 
 .page-item:first-child {
@@ -279,6 +288,7 @@ import axios from "axios";
 import popup from "../Base/BasePopup.vue";
 
 
+
 export default {
   components: {
     EmployeeDetail,
@@ -290,6 +300,7 @@ export default {
 
   data() {
     return {
+      isActive: "10",
       pageNumber: 1,
       page: 1,
       totalPage: 0,
@@ -315,12 +326,16 @@ export default {
       isShowPopup: false,
       empCode: [],
       listEmployeeID: [],
+      arrGender:[],
+      gender:"",
+      
     };
   },
   /**
    * lấy dữ liệu hiện lên bảng
    */
   created() {
+    
     this.filterEmployee();
     // $(window).click(function (e) {
     //   const btnMenuList = document.getElementsByClassName('btnMenu')
@@ -331,16 +346,23 @@ export default {
     //   })
 
     // })
+    
+      
+    
+ 
   },
 
   watch: {
     pageDefault: function () {
       this.filterEmployee();
     },
+    
   },
   
 
+
   methods: {
+   
     popup() {
       this.showPopup(true);
       setTimeout(() => {
@@ -350,6 +372,7 @@ export default {
     showPopup(value) {
       this.isShowPopup = value;
     },
+   
     /**
      * tìm kiếm
      * AUTHOR: HTTHOA (19/08/2022)
@@ -363,6 +386,8 @@ export default {
       this.showDropMenu(false);
       this.showPopup(true);
     },
+    
+    
 
     /**
      *
@@ -370,19 +395,22 @@ export default {
      * AUTHOR: HTTHOA (11/08/2022)
      */
     showMenu(e) {
-      if (this.btnEdit !== "" || this.showDropMenu(false)) {
-        this.btnEdit.classList.toggle("border-blue");
-      }
-      this.btnEdit = e.target;
-      this.btnEdit.classList.add("border-blue");
-      let position = $(e.target)[0].getBoundingClientRect();
+      // if (this.btnEdit !== "" || this.showDropMenu(false)) {
+      //   this.btnEdit.classList.toggle("border-blue");
+      // }
+      // this.btnEdit = e.target;
+      // this.btnEdit.classList.add("border-blue");
+       let position = $(e.target)[0].getBoundingClientRect();
       console.log(position);
       var top = position.top;
       var left = position.left;
       $(".listFunction").css("top", top - 20 + "px");
       $(".listFunction").css("left", left - 270 + "px");
-      this.showDropMenu(true);
+     
+     this.showDropMenu(true)
+      
     },
+    
 
     /**
      * hiển thị chức năng nhân bản, xóa,...
@@ -391,6 +419,12 @@ export default {
      */
     showDropMenu(value) {
       this.isShowMenu = value;
+      
+    },
+    hideDropMenu(value){
+    
+      this.isShowMenu=value;
+        this.filterEmployee(value)
     },
     
     /**
@@ -424,7 +458,7 @@ export default {
       this.employeeDelete = employee;
       this.employeeId = employee.employeeID;
       this.emplyeeCode = employee.employeeCode;
-     this.filterEmployee()
+     
     },
     /**
      * hiển thị dữ liệu khi click vào sửa
@@ -435,6 +469,7 @@ export default {
       this.functionShowDialog(true);
       this.employeeSelected = employee;
       this.employeeId = employee.employeeID;
+      this.filterEmployee()
       
     },
     check(employee) {
@@ -511,9 +546,12 @@ export default {
      * AUTHOR: HTTHOA(05/08/2022)
      */
     getPageDefault(e) {
+      this.isActive=e.target.getAttribute("pageSize");
       this.pageDefault = e.target.getAttribute("pageSize");
+   
       console.log(this.pageDefault);
       this.showPage(false);
+     
       this.filterEmployee();
       if (this.pageDefault > this.totalRecord) {
         this.pageDefault = this.totalRecord;
@@ -537,6 +575,25 @@ export default {
       }
       return Dob;
     },
+
+     formatGender(gender){
+      
+      switch(gender){
+        case 0:
+          gender="Nam";
+          break;
+        case 1:
+         gender="Nữ";
+          break;
+        case 2:
+          gender="Khác";
+          break;
+         default:
+         gender="";
+      }
+   return gender;
+
+    },
     /**
      * hàm click vào số trang
      * AUTHOR: HTTHOA(15/08/2022)
@@ -550,6 +607,7 @@ export default {
      * AUTHOR: HTTHOA(11/08/2022)
      */
     filterEmployee() {
+     
       var me = this;
 
       this.showLoading(true);
@@ -559,7 +617,14 @@ export default {
           me.totalPage = res.data.totalPages;
           me.totalRecord = res.data.totalRecords;
           me.employees = res.data.data;
-          console.log(res.data.data);
+         console.log(res.data.data)
+        for(var emp of res.data.data){
+          me.arrGender.push(emp.gender)
+        }
+
+  
+       
+        console.log(me.arrGender)
           
         })
         .then(function () {

@@ -5,6 +5,9 @@ import OverView from './components/layout/TheOverView.vue'
 import EmployeeList from './components/layout/TheEmployeeList.vue'
 import "vue-toastification/dist/index.css";
 import Toast from "vue-toastification";
+import ElementPlus from 'element-plus';
+import "element-plus/dist/index.css";
+import { TreeOptionsEnum } from 'element-plus/es/components/tree-v2/src/virtual-tree'
 
 
 const routes = [
@@ -20,11 +23,14 @@ const routes = [
     linkActiveClass:'active',
     
   })
+  createApp(App).use(ElementPlus)
   createApp(App).use(Toast, {
     transition: "Vue-Toastification__bounce",
     maxToasts: 20,
-    newestOnTop: true
+    newestOnTop: true,
+    icon: true,
+    position: "top-center",
   });
-
+ 
  
 createApp(App).use(router).mount('#app')

@@ -145,7 +145,7 @@ tbody tr:hover .td-item-final{
     background-color: #f2f9ff !important;
 }
 
-input[type='checkbox']:after {
+.m-table input[type='checkbox']:after {
     font-size: 30px;
      width: 16px !important;
      border: 1px solid  #ccc;
@@ -155,10 +155,10 @@ input[type='checkbox']:after {
     
     
 }
-input[type='checkbox']:checked:after {
+.m-table input[type='checkbox']:checked:after {
     
     height: 16px;
-    top: 0px;
+    top: 7px;
     left: 0px;
     position: relative;
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1224px -360px;

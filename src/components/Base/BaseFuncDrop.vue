@@ -19,17 +19,26 @@
     
   </div>
 </template>
-<script>
+<script >
 import MsgDelete from "../Base/BaseMsgDelete.vue";
 import $ from "jquery";
 import axios from "axios";
 import btn from "../../Locale/LocaleButton";
 import msg from "../../Locale/LocaleMsg";
-
+import{ElementPlus}  from 'element-plus';
 import popup from "../Base/BasePopup.vue";
 import { useToast } from "vue-toastification";
 
-  
+const open2 = () => {
+ ElementPlus({
+    showClose: true,
+    message: 'Congrats, this is a success message.',
+    type: 'success',
+  })
+}
+function me(){
+  console.log(1)
+}
 
 export default {
   components: {
@@ -38,6 +47,7 @@ export default {
 
   data() {
     return {
+     
       btn: btn,
       msg: msg,
       empCode: "",
@@ -49,7 +59,7 @@ export default {
       popupMsg:"",
     };
   },
-  props: ["showMenu", "empDeleteCode", "employeeDelete", "employeeDeleteId"],
+  props: ["showMenu","empDeleteCode", "employeeDelete", "employeeDeleteId","loadData"],
   watch: {
     employeeDelete: function (value) {
       console.log(value);
@@ -64,10 +74,10 @@ export default {
   },
   methods: {
     popup() {
-      this.showPopup(true);
-      setTimeout(() => {
-        this.showPopup(false);
-      }, 3000);
+     this.me()
+       this.open.open2()
+     
+     
     },
     showPopup(value) {
       this.isShowPopup = value;
@@ -128,10 +138,9 @@ export default {
         .delete(`http://localhost:3131/api/v1/Employees/${this.employeeId}`)
         .then(function () {
     
-          toast.success("Xóa nhân viên thành công", { timeout: 2000 });
-         
-          //  this.popupMsg="Xóa nhân viên thành công"
-          //   this.popup()
+          toast.warning("Xóa nhân viên thành công", { timeout: 2000 });
+          this.loadData();
+        
         })
         .catch(function () {});
     },

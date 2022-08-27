@@ -40,20 +40,22 @@
           </div>
           <div class="input-content">
             <label for="Dob">{{ infoEmployee.dob }}</label>
+
+            <!-- <datetime format="MM/DD/YYYY" class="Dob" v-model="Employee.dateOfBirth"></datetime> -->
             <input class="Dob" type="date" v-model="Employee.dateOfBirth" />
             <div id="Dob-error">ngày sinh phải nhỏ hơn ngày hiện tại</div>
           </div>
           <div class="input-content">
             <label for="Gender">{{ infoEmployee.gender }}</label>
             <div class="radio-group">
-              <input propname="Render" style="margin-right: 8px" type="radio" value="0" class="gender" name="Gender"
-                v-model="Employee.gender" />{{ infoEmployee.male }}
+              <input propname="Render" style="margin-right: 8px" type="radio" :value="0" class="gender" name="Gender"
+                v-model="Employee.gender" /><p>{{ infoEmployee.male }}</p>
 
-              <input style="margin-left: 16px" type="radio" value="1" class="gender" name="Gender"
-                v-model="Employee.gender" />{{ infoEmployee.female }}
+              <input style="margin-left: 16px" type="radio" :value="1" class="gender" name="Gender"
+                v-model="Employee.gender" /><p>{{ infoEmployee.female }}</p>
               <br />
-              <input style="margin-left: 16px" type="radio" value="2" class="gender" name="Gender"
-                v-model="Employee.gender" />{{ infoEmployee.other }}
+              <input style="margin-left: 16px" type="radio" :value="2" class="gender" name="Gender"
+                v-model="Employee.gender" /><p>{{ infoEmployee.other }}</p>
             </div>
           </div>
         </div>
@@ -70,7 +72,7 @@
             <input class="IdenNum" placeholder="Số cmnd" type="text" v-model="Employee.identityNumber"
               title="Số chứng minh nhân dân" />
           </div>
-          <div class="input-content" style="margin-left: 20px">
+          <div class="input-content" >
             <label for="IdenDate">{{ infoEmployee.idenDate }}</label>
             <input class="IdenDate" placeholder="Ngày cấp" type="date" v-model="Employee.identityDate" />
           </div>
@@ -87,7 +89,7 @@
               class="IdenPlace" />
           </div>
         </div>
-        <div class="m-row" style="padding-top: 20px">
+        <div class="m-row" >
           <div class="input-content">
             <label for="Address">{{ infoEmployee.address }}</label>
             <input placeholder="Địa chỉ" type="text" v-model="Employee.address" propname="Address" id="Address"
@@ -96,32 +98,32 @@
         </div>
         <div class="m-row">
           <div class="input-content">
-            <label for="mobile-phone">{{ infoEmployee.mobilePhone }}</label>
-            <input placeholder="Điện thoại di động" type="number" id="mobile-phone" v-model="Employee.phoneNumber"
+            <label for="mobile-phone"   class="mobile-phone" >{{ infoEmployee.mobilePhone }}</label>
+            <input placeholder="Điện thoại di động" type="text" id="mobile-phone" v-model="Employee.phoneNumber"
               class="mobile-phone" />
           </div>
           <div class="input-content">
-            <label for="phone">{{ infoEmployee.lineLandPhone }}</label>
-            <input placeholder="Điện thoại cố định" v-model="Employee.landlinePhone" type="number" id="phone" class="phone"  />
+            <label for="phone" class="phone">{{ infoEmployee.lineLandPhone }}</label>
+            <input placeholder="Điện thoại cố định" v-model="Employee.landlinePhone" type="text" id="phone" class="phone"  />
           </div>
           <div class="input-content">
-            <label for="Email">{{ infoEmployee.email }}</label>
+            <label for="Email" class="Email">{{ infoEmployee.email }}</label>
             <input placeholder="Email" type="text" id="Email" class="Email" v-model="Employee.email"  />
             <div class="red">{{ emailError }}</div>
           </div>
         </div>
         <div class="m-row">
           <div class="input-content">
-            <label for="BankName">{{ infoEmployee.bankName }}</label>
+            <label for="BankName" class="BankName">{{ infoEmployee.bankName }}</label>
             <input placeholder="Tên ngân hàng"  v-model="Employee.bankName"  type="text" id="BankName" class="BankName"  />
           </div>
           <div class="input-content">
-            <label for="BankPlace">{{ infoEmployee.bankBranch }}</label>
+            <label for="BankPlace" class="BankPlace">{{ infoEmployee.bankBranch }}</label>
             <input placeholder="Chi nhánh tài khoản ngân hàng"  v-model="Employee.bankBranch" type="text" id="BankPlace" class="BankPlace"
               />
           </div>
           <div class="input-content">
-            <label for="BankNum">{{ infoEmployee.bankAccount }}</label>
+            <label for="BankNum" class="BankNum">{{ infoEmployee.bankAccount }}</label>
             <input placeholder="Số tài khoản"  v-model="Employee.bankAccount" type="text" id="BankNum" class="BankNum"  />
           </div>
         </div>
@@ -147,7 +149,7 @@
     <MsgWarning v-show="isShowMsgWarning" @closeMsgWarn="hideWarnForm" @MsgWarn="closeSave"
       @cancelMsgWarn="hideMsgWarning"></MsgWarning>
     <LoadData v-show="loading"></LoadData>
-    <popup @closePopup="showPopup" :msgPopup="popupMsg" v-show="isShowPopup"></popup>
+   
   </div>
 </template>
 
@@ -165,10 +167,9 @@ import btn from "../../Locale/LocaleButton";
 import MsgExist from "../Base/BaseMsgExist.vue";
 import LoadData from "../../components/Base/BaseLoading.vue";
 import MsgWarning from "../Base/BaseMsgWarning.vue";
-import popup from "../Base/BasePopup.vue";
 import { useToast } from "vue-toastification";
 
-import $ from "jquery";
+
 
 export default {
 
@@ -178,12 +179,13 @@ export default {
     InputCombobox,
     MsgExist,
     MsgWarning,
-    popup,
+   
+    
   },
   data() {
     return {
       code: "",
-      popupMsg: "",
+    
       getData: {},
       loading: false,
       btn: btn,
@@ -214,7 +216,7 @@ export default {
       isValid: true,
       newEmpCode: "",
       loadEmp: [],
-      isShowPopup: false,
+     
       employees:{},
     };
   },
@@ -270,15 +272,7 @@ export default {
   },
 
   methods: {
-   async popup() {
-      this.showPopup(true);
-     await setTimeout(() => {
-        this.showPopup(false);
-      }, 3000);
-    },
-    showPopup(value) {
-      this.isShowPopup = value;
-    },
+   
     /**
          * 
          * @param {validate ngày tháng năm đưa lên form chi tiết} date 
@@ -470,9 +464,10 @@ export default {
       if (this.isValid) {
         this.$emit("showDialog", true);
       }
-      this.saveData();
-
+      this.saveData()
       this.showLoading(false);
+      this.loadData()
+     
     },
 
     /**
@@ -482,7 +477,9 @@ export default {
      *
      */
     btnAddAndSave() {
+       console.log(this.Employee.gender)
       this.saveAndAddData();
+       this.loadData()
       
     },
     /**
@@ -494,12 +491,20 @@ export default {
       var newEmployee = me.Employee;
         const toast = useToast();
       if (this.formMode == 1) {
+       
         axios
           .post("http://localhost:3131/api/v1/Employees", newEmployee)
           .then(function () {
            toast.success("Thêm nhân viên thành công", { timeout: 2000 });
-
+             this.loadData();
             this.$emit("showDialog", false);
+            
+          })
+          .then(function(){
+            me.Employee = {};
+            me.getNewEmployeeCode();
+            me.Employee.employeeCode = this.newCode;
+            me.$refs.txtEmployeeCode.focus();
           })
           
           .catch(function () { });
@@ -510,7 +515,8 @@ export default {
             newEmployee
           )
           .then(function () {
-            toast.success("Sửa nhân viên thành công", { timeout: 2000 });
+            toast.info("Sửa nhân viên thành công", { timeout: 2000 });
+             this.loadData()
            
           })
           .catch(error=>{
@@ -535,12 +541,15 @@ export default {
           
           .then(function () {
             toast.success("Thêm nhân viên thành công", { timeout: 2000 });
-            this.Employee = {};
-            this.getNewEmployeeCode();
-            this.Employee.employeeCode = this.newCode;
-            this.$refs.txtEmployeeCode.focus();
+             this.loadData()
             
-           
+
+          })
+          .then(function(){
+            me.Employee = {};
+            me.getNewEmployeeCode();
+            me.Employee.employeeCode = this.newCode;
+            me.$refs.txtEmployeeCode.focus();
           })
           .catch(function () {});
       } else {
@@ -550,9 +559,10 @@ export default {
             me.Employee
           )
           .then(function () {
-            toast.success("Sửa nhân viên thành công", { timeout: 2000 });
-            // me.popupMsg = "Sửa dữ liệu thành công";
-            // me.popup();
+            toast.info("Sửa nhân viên thành công", { timeout: 2000 });
+             this.loadData()
+            
+            
           })
 
           .catch(function () { });
