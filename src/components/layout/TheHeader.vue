@@ -2,7 +2,7 @@
     <div class="header">
       
          <div class="header-left">
-                <div class="menu-icon">
+                <div class="menu-icon-header">
                 </div>
                 <div class="header-select">
                     <select name="" id="select-header">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="listFunction" class="listFunction">
-      <div  @click="popup" class="item-func">{{ btn.repli }}</div>
+      <div  @click="btnReplication" class="item-func">{{ btn.repli }}</div>
       <div class="item-func" @click="handleDeleteEmployee">
         {{ btn.delete }}
       </div>
@@ -16,7 +16,7 @@
     >
     </MsgDelete>
        <popup style="right: 10px; bottom: 70px;" @closePopup="showPopup" :msgPopup="popupMsg" v-show="isShowPopup"></popup>
-    
+    <formDetail :formMode="formModeDetail" :formRepli="formModeRepli" :newEmployeeCode="newCode" v-show="isShowForm" :employeeDetailAdd="Employees" :employeeSelectedId="employeeId"></formDetail>
   </div>
 </template>
 <script >
@@ -25,29 +25,19 @@ import $ from "jquery";
 import axios from "axios";
 import btn from "../../Locale/LocaleButton";
 import msg from "../../Locale/LocaleMsg";
-import{ElementPlus}  from 'element-plus';
 import popup from "../Base/BasePopup.vue";
 import { useToast } from "vue-toastification";
+import formDetail from "../layout/TheEmployeeDetail.vue"
 
-const open2 = () => {
- ElementPlus({
-    showClose: true,
-    message: 'Congrats, this is a success message.',
-    type: 'success',
-  })
-}
-function me(){
-  console.log(1)
-}
 
 export default {
   components: {
-    MsgDelete,popup
+    MsgDelete,popup,formDetail
   },
 
   data() {
     return {
-     
+      isShowForm:false,
       btn: btn,
       msg: msg,
       empCode: "",
@@ -57,13 +47,20 @@ export default {
       isDelete: false,
       isShowPopup: false,
       popupMsg:"",
+      newCode: null,
+      formModeDetail: 1,
+      Employees:[],
+      fromModeRepli: 0,
     };
   },
-  props: ["showMenu","empDeleteCode", "employeeDelete", "employeeDeleteId","loadData"],
+  props: ["showMenu","empDeleteCode", "employeeDelete","employeeDetails", "employeeDeleteId","loadData","newEmployeeCode"],
   watch: {
     employeeDelete: function (value) {
-      console.log(value);
       this.Employees = value;
+      console.log(value)
+    },
+    employeeDetails: function(value){
+       this.Employees = value
     },
     employeeDeleteId: function (value) {
       this.employeeId = value;
@@ -71,19 +68,22 @@ export default {
     empDeleteCode: function (value) {
       this.empCode = value;
     },
+    newEmployeeCode: function(value){
+      this.newCode=value
+     
+    }
   },
   methods: {
-    popup() {
-     this.me()
-       this.open.open2()
-     
-     
+    showForm(value){
+      this.isShowForm=value
     },
-    showPopup(value) {
-      this.isShowPopup = value;
+    btnReplication(){
+      this.showForm(true);
+      this.formModeDetail = 1;
+      this.formModeRepli=0;
+      
+
     },
-
-
     /**
      * hàm hiển thị msg confirm xóa
      * AUTHOR: HTTHOA (12/08/2022)
@@ -137,12 +137,14 @@ export default {
       axios
         .delete(`http://localhost:3131/api/v1/Employees/${this.employeeId}`)
         .then(function () {
-    
+          
           toast.warning("Xóa nhân viên thành công", { timeout: 2000 });
-          this.loadData();
+          
+         
         
         })
         .catch(function () {});
+        this.loadData();
     },
     /**
      * hàm xử lý khi ấn nút no của msg confirm

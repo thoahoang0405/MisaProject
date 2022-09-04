@@ -5,9 +5,12 @@ import OverView from './components/layout/TheOverView.vue'
 import EmployeeList from './components/layout/TheEmployeeList.vue'
 import "vue-toastification/dist/index.css";
 import Toast from "vue-toastification";
-import ElementPlus from 'element-plus';
-import "element-plus/dist/index.css";
-import { TreeOptionsEnum } from 'element-plus/es/components/tree-v2/src/virtual-tree'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHatWizard } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import vClickOutside from 'v-click-outside'
+
+
 
 
 const routes = [
@@ -15,7 +18,8 @@ const routes = [
     { path: '/cash', component: EmployeeList },
   
   ]
-  
+  library.add(faHatWizard);
+  createApp(App).component('font-awesome-icon', FontAwesomeIcon)
   const router = createRouter({
     
     history:createWebHistory(),
@@ -23,7 +27,9 @@ const routes = [
     linkActiveClass:'active',
     
   })
-  createApp(App).use(ElementPlus)
+ 
+
+  createApp(App).use(vClickOutside)
   createApp(App).use(Toast, {
     transition: "Vue-Toastification__bounce",
     maxToasts: 20,
@@ -31,6 +37,7 @@ const routes = [
     icon: true,
     position: "top-center",
   });
+
  
  
 createApp(App).use(router).mount('#app')

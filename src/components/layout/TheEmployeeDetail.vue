@@ -43,7 +43,7 @@
 
             <!-- <datetime format="MM/DD/YYYY" class="Dob" v-model="Employee.dateOfBirth"></datetime> -->
             <input class="Dob" type="date" v-model="Employee.dateOfBirth" />
-            <div id="Dob-error">ngày sinh phải nhỏ hơn ngày hiện tại</div>
+            
           </div>
           <div class="input-content">
             <label for="Gender">{{ infoEmployee.gender }}</label>
@@ -108,8 +108,8 @@
           </div>
           <div class="input-content">
             <label for="Email" class="Email">{{ infoEmployee.email }}</label>
-            <input placeholder="Email" type="text" id="Email" class="Email" v-model="Employee.email"  />
-            <div class="red">{{ emailError }}</div>
+            <input placeholder="Email" type="text" id="Email" @blur="validateEmail" class="Email" v-model="Employee.email"  />
+            <div class="red" style="margin-left: 8px">{{ emailError }}</div>
           </div>
         </div>
         <div class="m-row">
@@ -172,8 +172,7 @@ import { useToast } from "vue-toastification";
 
 
 export default {
-
-
+ 
   components: {
     MsgErrorRequired,
     InputCombobox,
@@ -216,6 +215,7 @@ export default {
       isValid: true,
       newEmpCode: "",
       loadEmp: [],
+      formModeRepli: null,
      
       employees:{},
     };
@@ -229,6 +229,8 @@ export default {
     "formMode",
     "addOnclick",
     "employeeCode",
+    "employeeDetailAdd",
+    "formRepli"
   ],
   computed: {},
 
@@ -241,13 +243,30 @@ export default {
      */
     employeeDetail: function (value) {
       console.log(value)
+      console.log(value.identityDate)
+      console.log(value.dateOfBirth)
       value.dateOfBirth = this.fomartDate(value.dateOfBirth);
       value.identityDate = this.fomartDate(value.identityDate);
-      this.Employee.identityDate = value.dateOfBirth;
-      this.Employee.dateOfBirth = value.identityDate;
+      this.Employee.identityDate = value.identityDate;
+      this.Employee.dateOfBirth = value.dateOfBirth;
       this.Employee = value;
       this.oldEmp = { ...value };
     },
+    // employeeDetailAdd: function(value){
+    //   this.Employee= value
+    //   console.log(value)
+    //   this.getNewEmployeeCode()
+    //   value.dateOfBirth = this.fomartDate(value.dateOfBirth);
+    //   value.identityDate = this.fomartDate(value.identityDate);
+    //   this.Employee.identityDate = value.dateOfBirth;
+    //   this.Employee.dateOfBirth = value.identityDate;
+    //   this.EmployeeCode=this.newCode
+    //   console.log(value.newCode)
+    //   this.oldEmp = { ...value };
+    // },
+    // formRepli: function(value){
+    //   this.formModeRepli=value
+    // },
 
     /**
      *
@@ -259,16 +278,9 @@ export default {
       console.log(value);
       this.Employee.employeeCode = value;
       this.$refs.txtEmployeeCode.focus();
+      
     },
-    /**
-     *
-     * @param {validate email} value
-     * AUTHOR: HTTHOA (10/08/2022)
-     */
-    email(value) {
-      this.email = value;
-      this.validateEmail(value);
-    },
+
   },
 
   methods: {
@@ -309,12 +321,16 @@ export default {
         this.showMsgRequired(true);
 
         this.isValid = true;
+      }else{
+        this.isValid = false;
       }
       console.log(this.Employee.employeeName);
       if (!this.Employee.employeeName) {
         this.message.push("Tên không được trống");
         this.showMsgRequired(true);
         this.isValid = true;
+      }else{
+        this.isValid = false;
       }
       console.log(this.Employee.departmentName);
       console.log(this.Employee.departmentID);
@@ -322,15 +338,20 @@ export default {
         this.message.push("Đơn vị không được trống");
         this.showMsgRequired(true);
         this.isValid = true;
+      }else{
+        this.isValid = false;
       }
       console.log(this.Employee.dateOfBirth);
       if (this.Employee.dateOfBirth) {
         this.Employee.dateOfBirth = new Date(this.Employee.dateOfBirth);
       }
       if (this.Employee.dateOfBirth > new Date() && this.Employee.dateOfBirth) {
+        this.isValid = true;
         this.message.push("Ngày sinh không lớn hơn ngày hiện tại");
         this.showMsgRequired(true);
-        this.isValid = true;
+        
+      }else{
+        this.isValid = false;
       }
     },
 
@@ -382,13 +403,16 @@ export default {
     },
 
     /**
-         * hiển thị combobox
-         AUTHOR: HTTHOA (13/08/2022)
-         */
+    * hiển thị combobox
+    * AUTHOR: HTTHOA (13/08/2022)
+    */
     functionShowCbb(value) {
       this.isShowDropCbb = value;
     },
-
+    /**
+     * hiển thị loading
+     * AUTHOR: HTTHOA(13/08/2022)
+     */
     showLoading(value) {
       this.loading = value;
     },
@@ -398,20 +422,21 @@ export default {
          Author: HTTHOA(15/8/2022)
          */
     getEmployeeExist() {
-      if (this.formMode == 1) {
+      if (this.formMode == 1 ) {
         var me = this;
         axios
           .get("http://localhost:3131/api/v1/Employees")
           .then(function (response) {
             me.employees = response.data;
-            console.log(response.data);
             for (const emp of response.data) {
               me.code = emp.EmployeeCode;
               me.arr.push(me.code);
               if (me.Employee.employeeCode == me.code) {
-                
                 me.showMsgExist(true);
-                me.isValid = true;
+                me.isValid=true
+             
+              }else{
+                me.isValid=false
               }
              
             }
@@ -456,17 +481,12 @@ export default {
      * click nút cất
      * AUTHOR: HTTHOA(10/08/2022)
      */
-    btnSave() {
-      this.validate();
-      this.getEmployeeExist();
+    btnSave() {      
       this.showLoading(true);
-
-      if (this.isValid) {
-        this.$emit("showDialog", true);
-      }
-      this.saveData()
+     
+      this.saveData();      
       this.showLoading(false);
-      this.loadData()
+     
      
     },
 
@@ -477,9 +497,10 @@ export default {
      *
      */
     btnAddAndSave() {
-       console.log(this.Employee.gender)
+      
+      this.EmployeeCode=this.newCode
       this.saveAndAddData();
-       this.loadData()
+     
       
     },
     /**
@@ -489,41 +510,57 @@ export default {
    saveData() {
       var me = this;
       var newEmployee = me.Employee;
-        const toast = useToast();
-      if (this.formMode == 1) {
-       
-        axios
-          .post("http://localhost:3131/api/v1/Employees", newEmployee)
-          .then(function () {
-           toast.success("Thêm nhân viên thành công", { timeout: 2000 });
-             this.loadData();
-            this.$emit("showDialog", false);
-            
-          })
-          .then(function(){
-            me.Employee = {};
-            me.getNewEmployeeCode();
-            me.Employee.employeeCode = this.newCode;
-            me.$refs.txtEmployeeCode.focus();
-          })
-          
-          .catch(function () { });
-      } else {
-       axios
-          .put(
-            `http://localhost:3131/api/v1/Employees/${me.Employee.employeeID}`,
-            newEmployee
-          )
-          .then(function () {
-            toast.info("Sửa nhân viên thành công", { timeout: 2000 });
-             this.loadData()
-           
-          })
-          .catch(error=>{
-            console.log(error)
-          });
+      me.getEmployeeExist();
+      me.validate();
+      if (me.isValid) {
+        this.$emit("showDialog", true);
       }
-       this.$emit("showDialog", false);
+      const toast = useToast();
+      if(this.isValid==false){
+        if (this.formMode == 1  ) {
+      
+      axios
+        .post("http://localhost:3131/api/v1/Employees", newEmployee)
+        .then(function () {
+         toast.success("Thêm nhân viên thành công", { timeout: 2000 });
+         me.$emit("showDialog", false);
+          
+        })
+        .then(function(){
+        
+          me.Employee = {};
+          me.getNewEmployeeCode();
+          me.Employee.employeeCode = this.newCode;
+          me.$refs.txtEmployeeCode.focus();
+          me.loadData()
+          
+          
+        })
+        
+        .catch(function () { });
+        me.loadData();
+        
+    }
+   
+     else {
+     axios
+        .put(
+          `http://localhost:3131/api/v1/Employees/${me.Employee.employeeID}`,
+          newEmployee
+        )
+        .then(function () {
+          toast.info("Sửa nhân viên thành công", { timeout: 2000 });
+          me.$emit("showDialog", false);
+         
+         
+        })
+        .catch(error=>{
+          console.log(error)
+        });
+    }
+    
+      }
+    
     },
     /**
      * thêm , sửa cho nút cất và thêm
@@ -534,22 +571,27 @@ export default {
       var me = this;
       me.validate();
       me.getEmployeeExist();
-
-      if (this.formMode == 1) {
+    if(!this.isValid){
+       if (this.formMode == 1 ) {
+        
         axios
           .post("http://localhost:3131/api/v1/Employees", me.Employee)
           
           .then(function () {
             toast.success("Thêm nhân viên thành công", { timeout: 2000 });
-             this.loadData()
+          
             
 
           })
           .then(function(){
-            me.Employee = {};
-            me.getNewEmployeeCode();
-            me.Employee.employeeCode = this.newCode;
-            me.$refs.txtEmployeeCode.focus();
+          
+          me.Employee = {};
+          me.getNewEmployeeCode();
+          me.Employee.employeeCode = this.newCode;
+          me.$refs.txtEmployeeCode.focus();
+          me.loadData()
+          
+           
           })
           .catch(function () {});
       } else {
@@ -560,13 +602,16 @@ export default {
           )
           .then(function () {
             toast.info("Sửa nhân viên thành công", { timeout: 2000 });
-             this.loadData()
+             me.loadData()
             
             
           })
 
           .catch(function () { });
       }
+
+      }
+      
     },
 
     /**
@@ -589,11 +634,11 @@ export default {
      * @param {validate email} value
      * AUTHOR: HTTHOA (10/08/2022)
      */
-    validateEmail(email) {
-      console.log(email);
+    validateEmail() {
+     console.log(this.Employee.email)
       if (
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
-        email == ""
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.Employee.email) ||
+        this.Employee.email == ""
       ) {
         this.emailError = "";
         event.currentTarget.classList.remove("input-error");

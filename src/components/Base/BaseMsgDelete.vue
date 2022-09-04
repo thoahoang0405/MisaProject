@@ -47,28 +47,26 @@ export default {
 @import url('../../css/form/dialog.css');
 
 .dialog-delete {
-    width: 444px;
-    height: auto;
+    width:444px;
+    height:auto;
     background-color: #fff;
     color: #000;
-   
-    margin-top: 200px;
-    z-index: 9;
     padding: 32px;
-
+    font-size: 13px;
+    margin: auto;
 
 }
 
 #dl-delete {
-    width:1390px;
-    left: -20px;
-    top: -300px;
-    z-index: 9;
-    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    top: -160px;
+    left: 0px;
+    z-index: 7;
+    background-color: rgba(0,0,0,0.5);
     position: fixed;
     height: 1000px;
     display: flex;
-    align-items: center;
+    align-items: center ;
     justify-content: center;
 }
 

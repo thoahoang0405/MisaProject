@@ -3,13 +3,18 @@
     height: 100vh;
     margin-top: 48px;
     z-index: 2;
-    left: 176px;
-    width: calc(100% - 178px);
+    left: 178px;
+    width:calc(100% - 178px) !important;
     position: fixed;
 }
 @media (min-width: 768px) and (max-width: 1023px) {
-  
-    
+   
+}
+@media (min-height: 768px) and (max-height: 900px){
+    /* .m-table{
+        height: 510px  !important;
+    }
+     */
 }
 @media (max-width: 768px) {
     .main{
@@ -64,17 +69,40 @@
 .main-table{
     background-color: #fff;
     padding: 10px;
-   margin: 16px;
+    margin: 16px;
+    height: calc(100vh - 150px);
+   
+  
+   
+   
     
+}
+button.action-multiple {
+    height: 36px;
+    min-width: 150px;
+    color: #111;
+    background-color: #fff;
+    border-radius: 20px;
+    margin-left: 10px;
+    padding: 0px 16px;
+    font-weight: 700;
+    cursor: pointer;
+   
+}
+button.action-multiple:hover{
+    background-color: #D2D3D6;
 }
 .main-table-header{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 .main-table-header input::placeholder{
     color: #bbb;
     font-style: italic;
    
+}
+.main-header-right{
+    display: flex;
 }
 .main-table-header input{
     width: 224px;
@@ -90,16 +118,13 @@
     background: url('../../assets/icon/search.png') no-repeat;
 	background-size: 20px;
     background-position: right center;
-  
-   
-   
 }
 .icon-refresh{
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -425px -201px;
 	width: 20px;
 	height: 21px;;
     color: #bbb;
-     margin-top: 8px;
+    margin: 6px 8px 0px 8px;
      
 }
 #refresh{
@@ -108,23 +133,32 @@
     z-index: 2;
     cursor: pointer;
 }
+.icon-excel{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -705px -202px;
+	width: 23px;
+	height: 20px;
+    margin: 6px 10px 0px 8px;
+
+}
 /* //#edeef2 */
 /* nút #2f9d22
     chữ sửa: #327eb0
     chữ dữ liệu: #727272 */
 .m-table{
    
-    margin-bottom: 10px;
+   
     background-color: #fff;
-    /* height: 100vh; */
-    height: 410px;
-    overflow-y: auto;
-    width: 100%;
-    overflow-x: auto;
+    height: calc(100% - 100px);
+    overflow-y: scroll;
+    width: calc(100% - 10px);
+    overflow-x: scroll;
+    margin: 10px;
+    
     /* overflow:scroll; */
     
     
 }
+
  table{
     color: #111;
     width: auto;
@@ -135,7 +169,7 @@
     
 }
 tbody tr td{
-    color: #727272;
+    color: #111;
 }
 tbody tr:hover{
     background-color: #f2f9ff;
@@ -164,7 +198,7 @@ tbody tr:hover .td-item-final{
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1224px -360px;
 	
     background-color: #ffff;
-    border: 1px solid green;
+    border: 1px solid #111;
     content: '';
     display: inline-block;
     transform: rotate(0deg);
@@ -187,8 +221,9 @@ tbody tr:hover .td-item-final{
 }
 thead tr{
     background-color:#e5e8ec ;
-    height: 35px;
+   
     position: sticky;
+  
     top: 0px;
     z-index: 3;
    
@@ -201,21 +236,29 @@ thead tr th {
     
     width: auto;
 }
-tr{
-    height: 44px;
+tbody tr{
     
+    
+}
+.row-active{
+    background-color: #e5f3ff !important;
+
 }
 th{
     border-bottom: 1px solid #c7c7c7;
     border-right: 1px dotted #c7c7c7 ;
     text-align: left;
-    padding: 4px;  
+    padding:0px 10px;  
+    height: 35px;
+    box-sizing: border-box;
 }
 td{
     border-bottom: 1px solid #c7c7c7;
     border-right: 1px dotted #c7c7c7 ;
-    padding: 4px 6px;
+    padding: 0px 10px;
     text-align: left;   
+    height: 44px;
+    box-sizing: border-box;
 }
 
 .sticky-left-top{
@@ -253,6 +296,10 @@ td{
     color: #0075c0;
     border-right: none;
 }
+.edit-text{
+    font-weight: 700;
+    margin-left: 10px;
+}
 .th-item-final{
     border-right: none;
 }
@@ -262,16 +309,17 @@ td{
     justify-content: space-around;
     padding: 8px;
     position: relative;
-    height: 30px;
+   
 }
 .icon-down{
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -900px -365px;
 	width: 8px;
 	height: 5px;
     z-index: 1;
+    margin-top: 4px;
    
 }
-#btnMenu{
+.btnMenu{
     height: 7px;
     width: 10px;
     padding: 6px;
@@ -308,10 +356,10 @@ td{
 }
 .page{
     width: 220px;
-    height: 36px;
+    height: 32px;
     display: flex;
     
-    border: 1px solid #222;
+    border: 1px solid #bbb;
     color:#000;
     
 }
@@ -319,7 +367,7 @@ td{
     min-width: 170px;
     margin-left: 6px;
     margin-right: 10px;
-    margin-top: 10px;
+    margin-top: 6px;
     position: relative;
     
 }
@@ -330,7 +378,7 @@ td{
 .icon-dropup{
     background: url('../../assets/icon/dropdown2.png') no-repeat 4px  ;
    width: 20px;
-   height: 20px;
+   height: 16px;
     
    
     align-items: center;

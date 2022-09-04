@@ -9,45 +9,52 @@
     </div>
     <div class="main-table">
       <div class="main-table-header">
-        <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtsearch" class="icon-search" type="text"
+        <button class="action-multiple" @click="btnDeleteMultiple">Thực hiện hàng loạt</button>
+        <div class="main-header-right">
+           <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtsearch" class="icon-search" type="text"
           :placeholder="infoEmployee.search" />
         <div title="lấy lại dữ liệu" id="refresh" @click="filterEmployee" class="icon-refresh">
           <span id="" class="icon-refresh"> </span>
         </div>
+        <div title="xuất ra excel" id="excel" @click="getExcel" class="icon-excel">
+          <span id="" :myData="filterEmployee"  class="icon-excel" > </span>
+        </div>
+        </div>
+       
       </div>
 
       <div id="m-table" class="m-table">
         <DropFunction v-show="isShowMenu" :empDeleteCode="emplyeeCode"
-          @closeDrop="hideDropMenu" :employeeDelete="employeeDelete" :employeeDeleteId="employeeId"
-          :emplyeeCode="employeeCode" :loadData="filterEmployee" popupShow="{this.popup}"></DropFunction>
+          @closeDrop="hideDropMenu"   :employeeDetails="employeeSelected" :employeeDeleteId="employeeId"
+          :emplyeeCode="employeeCode" :loadData="filterEmployee" :newEmployeeCode="newCode"></DropFunction>
 
         <table id="tbEmployee" class="table">
           <thead>
-            <tr>
+            <tr >
               <th class="sticky-left-top checkbox" colspan="1" style="min-width: 30px !important; text-align: center">
-                <input @click="checkAll" type="checkBox" class="check-all" style="width: 18px; height: 18px" />
+                <input @click="checkAll" ref="checkall" type="checkBox" class="check-all" style="width: 18px; height: 18px" />
               </th>
-              <th colspan="2" style="min-width: 110px">
+              <th colspan="2" style="min-width: 144px">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{ infoEmployee.empCode.toUpperCase() }}
                   </span>
                 </div>
               </th>
-              <th colspan="3" style="min-width: 150px">
+              <th colspan="3" style="min-width: 155px">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{
                       infoEmployee.empName.toUpperCase()
                   }}</span>
                 </div>
               </th>
-              <th colspan="4" style="min-width: 110px; text-align: center">
+              <th colspan="4" style="min-width: 151px; text-align: center">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{
                       infoEmployee.dob.toUpperCase()
                   }}</span>
                 </div>
               </th>
-              <th colspan="5" style="min-width: 90px">
+              <th colspan="5" style="min-width: 126px">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{
                       infoEmployee.gender.toUpperCase()
@@ -68,20 +75,20 @@
                   }}</span>
                 </div>
               </th>
-              <th colspan="8" style="min-width: 150px">
+              <th colspan="8" style="min-width: 200px">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{
                       infoEmployee.department.toUpperCase()
                   }}</span>
                 </div>
               </th>
-              <th colspan="9" style="min-width: 100px">
+              <th colspan="9" style="min-width: 144px">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{ infoEmployee.bankAccount.toUpperCase() }}
                   </span>
                 </div>
               </th>
-              <th colspan="10" style="min-width: 150px">
+              <th colspan="10" style="min-width: 181px">
                 <div class="th-item">
                   <span class="table-text text-align-center">{{ infoEmployee.bankName.toUpperCase() }}
                   </span>
@@ -102,10 +109,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="employee in employees" @dblclick="editOnclick(employee)" :key="employee.EmployeeId"
+            <tr ref="row" v-for="employee in employees" @dblclick="editOnclick(employee)" :key="employee.EmployeeId"
               @click="rowOnclick(employee)">
-              <td class="checkbox sticky-left" style="text-align: center" colspan="1">
-                <input @click="check(employee)" class="check-item" type="checkbox" style="width: 18px; height: 18px" />
+              <td ref="rowCheck" class="checkbox sticky-left"  style="text-align: center" colspan="1">
+                <input @click="check(employee)" ref="check" class="check-item" type="checkbox" style="width: 18px; height: 18px" />
               </td>
               <td colspan="2">
                 <div class="td-item">
@@ -161,12 +168,12 @@
                   <span class="table-text">{{employee.bankBranch}} </span>
                 </div>
               </td>
-              <td class="td-item-final td-func sticky-right" style="position: sticky; right: 0; background-color: #fff"
+              <td ref="func" class="td-item-final td-func sticky-right"  style="position: sticky; right: 0; background-color: #fff"
                 colspan="12">
                 <div @click="editOnclick(employee)" class="edit-text">
                   {{ btn.editBtn }}
                 </div>
-                <div class="btnMenu" @click="showMenu" id="btnMenu" ref="btnMenu">
+                <div ref="btnMenu" class="btnMenu" @click="showMenu" >
                   <div class="icon-down" style="border: none; z-index: -1"></div>
                 </div>
               </td>
@@ -186,8 +193,8 @@
               {{ pageDefault }} {{ infoEmployee.pageSize }}
             </div>
             <div class="dropup-page">
-              <div class="icon-dropup" @click="btnDropUp"></div>
-              <div class="item-up" v-show="isShow">
+              <div class="icon-dropup" @click="btnDropUp" ></div>
+              <div class="item-up" v-show="isShow" v-clickoutside="hidePaging">
                 <div class="item-dropup" :class="{act: isActive=== '10'}"  pageSize="10" :value="pageDefault" @click="getPageDefault">
                   10 {{ infoEmployee.pageSize }}
                 </div>
@@ -225,8 +232,7 @@
     :employeeDetail="employeeSelected" :employeeSelectedId="employeeId" :newEmployeeCode="newCode"
     :formMode="formModeDetail"  :code="empCode" :employeeCode="employeeCode"
     :addOnclick="btnAddOnClick" :loadData="filterEmployee" />
-  
-  <popup v-show="isShowPopup"></popup>
+  <MsgDelete v-show="isShowMsgDelete" @noDelete="showMsgDelete" @delete="deleteMultipleEmployee"></MsgDelete>
 </template>
 <style>
 @import url("../../css/base/main.css");
@@ -285,17 +291,47 @@ import LoadData from "../../components/Base/BaseLoading.vue";
 import DropFunction from "../Base/BaseFuncDrop.vue";
 import $ from "jquery";
 import axios from "axios";
-import popup from "../Base/BasePopup.vue";
+import MsgDelete from "../Base/BaseMsgDelete.vue";
+import { useToast } from "vue-toastification";
 
-
+/**
+ * xử lý khi click ra ngoài combobox thì combobox ẩn đi
+ * AUTHOR: HTTHOA(05/08/2022)
+ */
+ const clickoutside = {
+  mounted(el, binding) {
+    el.clickOutsideEvent = (event) => {
+      
+      if (
+        !(
+          (
+            el === event.target || 
+            el.contains(event.target) || 
+            el.previousElementSibling.contains(event.target)
+          )
+        )
+      ) {      
+        binding.value(event, el);
+      }
+    };
+    document.body.addEventListener("click", el.clickOutsideEvent);
+  },
+  beforeUnmount: (el) => {
+    document.body.removeEventListener("click", el.clickOutsideEvent);
+  },
+};
 
 export default {
+  directives: {
+    clickoutside,
+  },
+ 
   components: {
     EmployeeDetail,
     LoadData,
     DropFunction,
     Paginate,
-    popup,
+    MsgDelete
   },
 
   data() {
@@ -323,68 +359,73 @@ export default {
       employees: [],
       pageDefault: 10,
       emplyeeCode: "",
-      isShowPopup: false,
+      isShowMsgDelete: false,
       empCode: [],
       listEmployeeID: [],
       arrGender:[],
       gender:"",
+      isSuccess:false 
+  
       
     };
   },
   /**
    * lấy dữ liệu hiện lên bảng
+   * AUTHOR: HTTHOA(20/08/2022)
    */
   created() {
     
     this.filterEmployee();
-    // $(window).click(function (e) {
-    //   const btnMenuList = document.getElementsByClassName('btnMenu')
-    //   btnMenuList.forEach(item=>{
-    //     if(!item.contains((e.target))){
-    //        me.clickOutsideMenu()
-    //     }
-    //   })
-
-    // })
     
-      
-    
- 
+   
+  },
+  mounted(){
+    /**
+     * click ra ngoài đóng menu function
+     * AUTHOR: HTTHOA(1/09/2022)
+     */
+    let me = this;
+    $(window).click(function (e) {
+      if($(e.target).attr("class") !== "btnMenu" && $(e.target).attr("class")!=="item-func"){
+           me.clickOutsideMenu()
+        }
+        
+    })
   },
 
   watch: {
+     /**
+     * theo dõi khi chọn bản ghi trên 1 trang  thì lấy lại dữ liệu
+     * AUTHOR: HTTHOA(20/08/2022)
+     */
     pageDefault: function () {
       this.filterEmployee();
     },
-    
+     /**
+     * theo dõi ô input khi người dùng nhập keyword
+     * AUTHOR: HTTHOA(20/08/2022)
+     */
+    txtSearch: function(){
+     console.log(this.txtSearch)
+     if(this.txtSearch==""){
+      this.filterEmployee();
+     }
+      }
   },
-  
-
-
   methods: {
-   
-    popup() {
-      this.showPopup(true);
-      setTimeout(() => {
-        this.showPopup(false);
-      }, 3000);
-    },
-    showPopup(value) {
-      this.isShowPopup = value;
-    },
-   
     /**
      * tìm kiếm
      * AUTHOR: HTTHOA (19/08/2022)
      */
     btnSearch() {
-      this.$refs.txtSearch.focus();
       this.filterEmployee();
     },
-
+     /**
+     * hàm ẩn menu 
+     * AUTHOR: HTTHOA(1/09/2022)
+     */
     clickOutsideMenu() {
-      this.showDropMenu(false);
-      this.showPopup(true);
+    this.isShowMenu=false
     },
     
     
@@ -400,15 +441,22 @@ export default {
       // }
       // this.btnEdit = e.target;
       // this.btnEdit.classList.add("border-blue");
+      var btnMenu= this.$refs.btnMenu;
        let position = $(e.target)[0].getBoundingClientRect();
-      console.log(position);
       var top = position.top;
       var left = position.left;
       $(".listFunction").css("top", top - 20 + "px");
       $(".listFunction").css("left", left - 270 + "px");
+       
+        
+          if (!this.isShowMenu ) {
+          this.showDropMenu(true)
+        }
      
-     this.showDropMenu(true)
-      
+      else {
+        this.showDropMenu(false)
+  
+    }  
     },
     
 
@@ -421,6 +469,10 @@ export default {
       this.isShowMenu = value;
       
     },
+     /**
+     * hàm ẩn drop menu
+     * AUTHOR: HTTHOA(1/09/2022)
+     */
     hideDropMenu(value){
     
       this.isShowMenu=value;
@@ -458,6 +510,7 @@ export default {
       this.employeeDelete = employee;
       this.employeeId = employee.employeeID;
       this.emplyeeCode = employee.employeeCode;
+      this.employeeSelected = employee;
      
     },
     /**
@@ -472,24 +525,105 @@ export default {
       this.filterEmployee()
       
     },
-    check(employee) {
-      if ($(".check-item").is(":checked")) {
-        this.employeeId = employee.employeeID;
-        console.log(this.employeeId);
-        this.listEmployeeID.push(employee.EmployeeId);
-      }
+     /**
+     * show confirm xóa
+     * AUTHOR: HTTHOA(2/09/2022)
+     */
+    showMsgDelete(value){
+    this.isShowMsgDelete=value
+   },
+    /**
+     * nhấn nút thực hiện hàng loạt để hiện msg confirm xóa
+     * AUTHOR: HTTHOA(2/09/2022)
+     */
+   btnDeleteMultiple(){
+    if(this.listEmployeeID.length >0){
+      this.showMsgDelete(true)
+    }
 
+   },
+    /**
+     * hàm api xóa hàng loạt employee
+     * AUTHOR: HTTHOA (2/09/2022)
+     */
+     deleteMultipleEmployee() {
+      const toast = useToast();
+      var me= this;
+        axios
+        .put("http://localhost:3131/api/v1/Employees/Multiple?ListId=",this.listEmployeeID)
+       
+        .then(function(){
+          me.showMsgDelete(false)
+          toast.warning("Xóa nhân viên thành công", { timeout: 2000 });
+          me.filterEmployee()
+        })
+        .catch(function () {});     
+        
+    },
+    /**
+     * xử lý check từng hàng khi tích vào ô check box 
+     * AUTHOR: HTTHOA(30/08/2022)
+     */
+    check() {
+      this.listEmployeeID = [];
+      var listCheck=this.$refs.check;
+      var rowCheck= this.$refs.row;
+      var funcCheck = this.$refs.func;
+      var check= this.$refs.rowCheck;
+      var listEmp=[];
+      for (var emp of this.employees) {
+       listEmp.push(emp.employeeID)
+      
+      }
+      console.log(funcCheck.length)
+      for(var i=0; i < listCheck.length; i++ ){
+         this.listEmployeeID.unshift(listEmp[i]); 
+        if (listCheck[i].checked==true) {      
+          rowCheck[i].classList.add("row-active")
+          check[i].classList.add("row-active")
+          funcCheck[i].classList.add("row-active")
+         
+        
+     }else{
+      this.listEmployeeID.splice(listEmp[i],1)
+        rowCheck[i].classList.remove("row-active")
+          check[i].classList.remove("row-active")
+          funcCheck[i].classList.remove("row-active")
+     }
+
+      }
       console.log(this.listEmployeeID);
     },
-
+   
+  
+    /**
+     * xử lý check tất cả các hàng khi tích vào ô check box đầu tiên
+     * AUTHOR: HTTHOA(30/08/2022)
+     */
     checkAll() {
+      var rowCheck= this.$refs.row;
+      var funcCheck = this.$refs.func;
+      var check= this.$refs.rowCheck;
       this.listEmployeeID = [];
-      if ($(".check-all").is(":checked")) {
+      var listCheck=this.$refs.check;
+      if (this.$refs.checkall.checked) { 
+        for(let i=0; i< listCheck.length; i++){
+          listCheck[i].checked=true
+          rowCheck[i].classList.add("row-active")
+          check[i].classList.add("row-active")
+          funcCheck[i].classList.add("row-active")
+        }     
         for (var emp of this.employees) {
-          this.listEmployeeID.push(emp.EmployeeId);
-          $(".check-item").is(":checked");
+               
+          this.listEmployeeID.push(emp.employeeID);        
         }
       } else {
+        for(let i=0; i< listCheck.length; i++){
+          listCheck[i].checked=false
+          rowCheck[i].classList.remove("row-active")
+          check[i].classList.remove("row-active")
+          funcCheck[i].classList.remove("row-active")
+        }   
         this.listEmployeeID = [];
       }
 
@@ -503,9 +637,19 @@ export default {
       $(".icon-dropup").toggleClass("iconrotate");
       if (!this.isShow) {
         this.showPage(true);
+        $(".icon-dropup").addClass("iconrotate");
       } else {
         this.showPage(false);
+        $(".icon-dropup").removeClass("iconrotate");
       }
+    },
+     /**
+     * ẩn combobox paging
+     * AUTHOR: HTTHOA(1/09/2022)
+     */
+    hidePaging(){
+      this.isShow=false
+      $(".icon-dropup").removeClass("iconrotate");
     },
     /**
      *
@@ -514,6 +658,14 @@ export default {
      */
     showPage(is) {
       this.isShow = is;
+    },
+    /**
+     * mở file excel trong tab mới để tải
+     * AUTHOR: HTTHOA(1/09/2022)
+     */
+    getExcel(){
+      window.open("http://localhost:3131/api/v1/Employees/exportExcel","Xuất file excel")
+
     },
 
     /**
@@ -535,7 +687,8 @@ export default {
     },
     /**
      *
-     * @param {show biểu tượng load} is
+     * show biểu tượng loading 
+     * AUTHOR: HTTHOA(06/08/2022)
      */
     showLoading(value) {
       this.loading = value;
@@ -551,6 +704,7 @@ export default {
    
       console.log(this.pageDefault);
       this.showPage(false);
+      $(".icon-dropup").removeClass("iconrotate");
      
       this.filterEmployee();
       if (this.pageDefault > this.totalRecord) {
@@ -566,16 +720,20 @@ export default {
         Dob = new Date(Dob);
         let date = Dob.getDate();
         date = date < 10 ? `0${date}` : date;
-        let Month = Dob.getMonth() + 1;
-        Month = Month < 10 ? `0${Month}` : Month;
+        let month = Dob.getMonth() + 1;
+        month = month < 10 ? `0${month}` : month;
         let year = Dob.getFullYear();
-        Dob = `${date}/${Month}/${year}`;
+        Dob =  `${year}-${month}-${date}`;
+        
       } else {
         Dob = "";
       }
       return Dob;
     },
-
+    /**
+     * hiển thị giới tính từ 0,1,2 sang nam, nữ, khác trên bảng
+     * AUTHOR: HTTHOA(20/08/2022)
+     */
      formatGender(gender){
       
       switch(gender){
@@ -621,11 +779,6 @@ export default {
         for(var emp of res.data.data){
           me.arrGender.push(emp.gender)
         }
-
-  
-       
-        console.log(me.arrGender)
-          
         })
         .then(function () {
           me.showLoading(false);
