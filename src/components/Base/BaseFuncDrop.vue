@@ -1,98 +1,143 @@
 <template>
   <div>
     <div id="listFunction" class="listFunction">
-      <div  @click="btnReplication" class="item-func">{{ btn.repli }}</div>
+      <div @click="btnReplication" class="item-func">{{ btn.repli }}</div>
       <div class="item-func" @click="handleDeleteEmployee">
         {{ btn.delete }}
       </div>
       <div class="item-func">{{ btn.stop }}</div>
     </div>
-  
-    <MsgDelete
-      v-show="isShowMsg"
-      :employeeCode="empCode"
-      @delete="functionDelete"
-      @noDelete="noDelete"
-    >
+    <MsgDelete v-show="isShowMsg" :employeeCode="empCode" @delete="functionDelete" @noDelete="noDelete"
+      :message="message">
     </MsgDelete>
-       <popup style="right: 10px; bottom: 70px;" @closePopup="showPopup" :msgPopup="popupMsg" v-show="isShowPopup"></popup>
-    <formDetail :formMode="formModeDetail" :formRepli="formModeRepli" :newEmployeeCode="newCode" v-show="isShowForm" :employeeDetailAdd="Employees" :employeeSelectedId="employeeId"></formDetail>
+    <formDetail v-show="isShowForm" @showDialog="hideForm" :employeeDetailAdd="Employees" :empNewCodeRepli="newCode"
+      :formRepli="formModeRepli" :formMode="formModeDetail"></formDetail>
   </div>
 </template>
-<script >
-import MsgDelete from "../Base/BaseMsgDelete.vue";
-import $ from "jquery";
+<script>
+import MsgDelete from "../base/BaseMsgDelete.vue";
 import axios from "axios";
-import btn from "../../Locale/LocaleButton";
-import msg from "../../Locale/LocaleMsg";
-import popup from "../Base/BasePopup.vue";
+import btn from "../../locales/LocaleButton";
+import msg from "../../locales/LocaleMsg";
 import { useToast } from "vue-toastification";
-import formDetail from "../layout/TheEmployeeDetail.vue"
-
-
+import formDetail from "../layout/TheEmployeeDetail.vue";
+import Msg from "../../utils/common";
+import { employeeApi } from "../../store/api";
+import { FormMode } from "../../utils/enumeration"
 export default {
   components: {
-    MsgDelete,popup,formDetail
+    MsgDelete,
+    formDetail,
   },
-
   data() {
     return {
-      isShowForm:false,
+      isShowForm: false,
       btn: btn,
       msg: msg,
       empCode: "",
       employeeId: "",
-      // empDeleteId: "",
       isShowMsg: false,
       isDelete: false,
-      isShowPopup: false,
-      popupMsg:"",
       newCode: null,
-      formModeDetail: 1,
-      Employees:[],
-      fromModeRepli: 0,
+      formModeDetail: FormMode.Add,
+      Employees: [],
+      fromModeRepli: FormMode.Replication,
+      message: "",
     };
   },
-  props: ["showMenu","empDeleteCode", "employeeDelete","employeeDetails", "employeeDeleteId","loadData","newEmployeeCode"],
+  props: [
+    "showMenu",
+    "empDeleteCode",
+    "employeeDelete",
+    "employeeDetails",
+    "employeeDeleteId",
+    "loadData",
+    "newEmployeeCode",
+  ],
   watch: {
-    employeeDelete: function (value) {
+    /**
+     * nhận mảng employee được truyền từ cha để xóa
+     * AUTHOR:HTTHOA(12/08/2022)
+     */
+    employeeDelete: function(value) {
       this.Employees = value;
-      console.log(value)
     },
-    employeeDetails: function(value){
-       this.Employees = value
+    /**
+     * nhận mảng employee được truyền từ cha để nhân bản
+     * AUTHOR:HTTHOA(01/09/2022)
+     */
+    employeeDetails: function (value) {
+      this.Employees = value;
     },
+    /**
+     * nhận  employee id được truyền từ cha
+     * AUTHOR:HTTHOA(12/09/2022)
+     */
     employeeDeleteId: function (value) {
       this.employeeId = value;
     },
+    /**
+     * nhận employee code được truyền từ cha
+     * AUTHOR:HTTHOA(01/09/2022)
+     */
     empDeleteCode: function (value) {
       this.empCode = value;
     },
-    newEmployeeCode: function(value){
-      this.newCode=value
-     
-    }
+    /**
+     * nhận employee code new được truyền từ cha
+     * AUTHOR:HTTHOA(01/09/2022)
+     */
+    newEmployeeCode: function (value) {
+      this.newCode = value;
+    },
   },
   methods: {
-    showForm(value){
-      this.isShowForm=value
+    /**
+     * hiển thị form chi tiết
+     * AUTHOR:HTTHOA(01/09/2022)
+     */
+    showForm(value) {
+      this.isShowForm = value;
     },
-    btnReplication(){
-      this.showForm(true);
-      this.formModeDetail = 1;
-      this.formModeRepli=0;
-      
-
+    hideForm(value) {
+      this.isShowForm = value;
+      this.closeDrop()
+    },
+    /**
+     * khi ấn nút repli
+     * AUTHOR:HTTHOA(01/09/2022)
+     */
+    btnReplication() {
+      this.showForm(true)
+      this.newCode = {};
+      this.getNewEmployeeCode();
+      this.formModeDetail = FormMode.Add;
+      this.formModeRepli = FormMode.Replication;
+    },
+    /**
+   * lấy mã  nhân viên mới
+   * AUTHOR: HTTHOA(09/08/2022)
+   */
+    getNewEmployeeCode() {
+      var me = this;
+      const toast = useToast();
+      axios
+        .get(`${employeeApi}NewCode`)
+        .then(function (res) {
+          me.newCode = res.data;
+        })
+        .catch(function (response) {
+          toast.error(Msg.Error, { timeout: 2000 });
+        });
     },
     /**
      * hàm hiển thị msg confirm xóa
      * AUTHOR: HTTHOA (12/08/2022)
      */
     handleDeleteEmployee() {
-      //
       this.showMsgDelete(true);
+      this.message = `Bạn có chắc chắn muốn xóa nhân viên <${this.empCode}> không?`
     },
-
     /**
      * hàm hiển thị msg confirm xóa
      * AUTHOR: HTTHOA (12/08/2022)
@@ -100,51 +145,46 @@ export default {
     showMsgDelete(is) {
       this.isShowMsg = is;
     },
-
     /**
      * hàm thực hiện xóa
      * AUTHOR: HTTHOA (12/08/2022)
      */
-   functionDelete(e) {
+    functionDelete(e) {
       this.isDelete = e;
-      console.log(e);
       this.showMsgDelete(true);
-
       if (this.isDelete) {
-        
         this.empDeleteId();
-       
-       
-       this.closeDrop();
+        this.closeDrop();
         this.showMsgDelete(false);
       }
     },
     /**
-     * hàm đóng menu chức năng 
+     * hàm đóng menu chức năng
      * AUTHOR: HTTHOA (12/08/2022)
      */
     closeDrop() {
       this.$emit("closeDrop", false);
-     
     },
     /**
      * hàm api xóa employee
      * AUTHOR: HTTHOA (12/08/2022)
      */
     empDeleteId() {
-      const toast = useToast();
-      console.log(this.empCode);
-      axios
-        .delete(`http://localhost:3131/api/v1/Employees/${this.employeeId}`)
-        .then(function () {
-          
-          toast.warning("Xóa nhân viên thành công", { timeout: 2000 });
-          
-         
-        
-        })
-        .catch(function () {});
-        this.loadData();
+      try {
+        const toast = useToast();
+        var me = this
+        axios
+          .delete(`${employeeApi}${me.employeeId}`)
+          .then(function () {
+            toast.warning(Msg.DeleteSuccess, { timeout: 2000 });
+            me.loadData();
+          })
+          .catch(function () {
+            toast.error(Msg.Error, { timeout: 2000 });
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * hàm xử lý khi ấn nút no của msg confirm
@@ -164,14 +204,13 @@ export default {
   margin-bottom: 10px;
   background-color: #fff;
   color: #727272;
-  border: 1px solid #ccc;
+  border-radius: 2px;
+  border: 1px solid #babec5;
   z-index: 6;
 }
-
 .item-func {
   padding: 6px;
 }
-
 .item-func:hover {
   background-color: #eee;
   color: #2f9d22;

@@ -35,7 +35,7 @@ router-link .menu-body-item{
     
 }
 .menu-header-sidebar{
-    background: url('../../assets/img/toggle-white.png') no-repeat ;
+    background: url('../../img/toggle-white.png') no-repeat ;
     width: 24px;
     height: 24px;
     background-size: contain;
@@ -44,7 +44,7 @@ router-link .menu-body-item{
     margin-top: 4px;
 }
 .menu-header-logo{
-    background: url('../../assets/icon/Logo_Module_TiengViet_White.66947422.svg') no-repeat ;
+    background: url('../../icon/Logo_Module_TiengViet_White.66947422.svg') no-repeat ;
 	width: 110px;
 	
     background-size: contain;
@@ -58,6 +58,7 @@ router-link .menu-body-item{
     color: #fff;
    padding: 10px 10px;
    box-sizing: border-box;
+   cursor: pointer;
 }
 .border-left{
     border-left: 3px solid #2f9d22 ;
@@ -93,94 +94,94 @@ a.active  .menu-icon{
     text-decoration: transparent;
 }
 .menu-item-overview{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -33px -1630px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -33px -1630px;
     width: 24px;
     height: 24px;
     
 }
 
 .menu-item-cash{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -78px -1631px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -78px -1631px;
     width: 24px;
     height: 24px;
    
 }
 
 .menu-item-deposit{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -121px -1633px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -121px -1633px;
     width: 24px;
     height: 24px;
    
 }
 
 .menu-item-order{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -165px -1632px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -165px -1632px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-cart{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -206px -1631px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -206px -1631px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-bill{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -254px -1632px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -254px -1632px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-store{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat  -294px -1632px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat  -294px -1632px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-tool{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -339px -1633px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -339px -1633px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-asset{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -382px -1632px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -382px -1632px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-tax{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -427px -1634px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -427px -1634px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-price{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -471px -1633px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -471px -1633px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-total{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -514px -1632px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -514px -1632px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-budget{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -382px -1664px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -382px -1664px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-report{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -552px -1636px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -552px -1636px;
     width: 24px;
     height: 24px;
    
 }
 .menu-item-fina{
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -207px -1667px;
+    background: url(../../img/Sprites.64af8f61.svg) no-repeat -207px -1667px;
     width: 24px;
     height: 24px;
    

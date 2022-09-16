@@ -47,7 +47,7 @@
     
 }
 .menu-icon-header{
-    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -847px -35px ;
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -847px -35px ;
     width: 24px;
     height: 24px;
     min-width: 24px;
@@ -60,6 +60,8 @@
 }
 #select-header{
     border: none;
+    font-weight: 700;
+    font-family: misa_fonts;
 }
 .header-right{
     display: flex;
@@ -69,7 +71,7 @@
    
 }
 .notice-icon{
-    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -788px -30px;
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -788px -30px;
     width: 24px;
     height: 24px;
     background-size: auto;
@@ -79,7 +81,7 @@
 }
 .avatar-icon{
    
-    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -352px -894px;
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -352px -894px;
     /* background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -788px -30px; */
 	
     width: 32px;
@@ -98,7 +100,7 @@
     font-weight: 700;
 }
 .drop-icon{
-    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1800px -478px;
+    background: url('../../img/Sprites.64af8f61.svg') no-repeat -1800px -478px;
     width: 14px;
     height: 14px;
     margin-left: 4px;

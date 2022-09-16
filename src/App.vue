@@ -1,10 +1,10 @@
-<template> 
- 
-  <Header/>
-  <Menu/>
-  <Main/>
-   <Container/>
-  
+<template>
+
+  <Header />
+  <Menu />
+  <Main />
+  <Container />
+
 </template>
 
 <script>
@@ -17,13 +17,12 @@ import Container from './components/layout/TheContainer.vue';
 export default {
   name: 'App',
   components: {
-    Header,Menu,Main,Container
-    
+    Header, Menu, Main, Container
+
   }
 }
 </script>
 
 <style>
-
 
 </style>

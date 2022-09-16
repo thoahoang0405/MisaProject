@@ -1,241 +1,248 @@
 <template>
-<div>
-  <div class="main">
-    <div class="main-header">
-      <h1 class="Emp-title">{{ infoEmployee.info }}</h1>
-      <button id="btn-add" @keyup.enter="btnAddOnClick" @click="btnAddOnClick" class="btn-add">
-        {{ btn.btnAdd }}
-      </button>
-    </div>
-    <div class="main-table">
-      <div class="main-table-header">
-        <button class="action-multiple" @click="btnDeleteMultiple">Thực hiện hàng loạt</button>
-        <div class="main-header-right">
-           <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtsearch" class="icon-search" type="text"
-          :placeholder="infoEmployee.search" />
-        <div title="lấy lại dữ liệu" id="refresh" @click="filterEmployee" class="icon-refresh">
-          <span id="" class="icon-refresh"> </span>
-        </div>
-        <div title="xuất ra excel" id="excel" @click="getExcel" class="icon-excel">
-          <span id="" :myData="filterEmployee"  class="icon-excel" > </span>
-        </div>
-        </div>
-       
+  <div>
+    <div class="main" id="main">
+      <div class="main-header">
+        <h1 class="Emp-title">{{ infoEmployee.info }}</h1>
+        <button id="btn-add" @click="btnAddOnClick" class="btn-add">
+          {{ btn.btnAdd }}
+        </button>
       </div>
-
-      <div id="m-table" class="m-table">
-        <DropFunction v-show="isShowMenu" :empDeleteCode="emplyeeCode"
-          @closeDrop="hideDropMenu"   :employeeDetails="employeeSelected" :employeeDeleteId="employeeId"
-          :emplyeeCode="employeeCode" :loadData="filterEmployee" :newEmployeeCode="newCode"></DropFunction>
-
-        <table id="tbEmployee" class="table">
-          <thead>
-            <tr >
-              <th class="sticky-left-top checkbox" colspan="1" style="min-width: 30px !important; text-align: center">
-                <input @click="checkAll" ref="checkall" type="checkBox" class="check-all" style="width: 18px; height: 18px" />
-              </th>
-              <th colspan="2" style="min-width: 144px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{ infoEmployee.empCode.toUpperCase() }}
-                  </span>
-                </div>
-              </th>
-              <th colspan="3" style="min-width: 155px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{
-                      infoEmployee.empName.toUpperCase()
-                  }}</span>
-                </div>
-              </th>
-              <th colspan="4" style="min-width: 151px; text-align: center">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{
-                      infoEmployee.dob.toUpperCase()
-                  }}</span>
-                </div>
-              </th>
-              <th colspan="5" style="min-width: 126px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{
-                      infoEmployee.gender.toUpperCase()
-                  }}</span>
-                </div>
-              </th>
-              <th class="iden-tool" colspan="6" style="min-width: 150px" title="Số chứng minh nhân dân">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{
-                      infoEmployee.idenNumber.toUpperCase()
-                  }}</span>
-                </div>
-              </th>
-              <th colspan="7" style="min-width: 150px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{
-                      infoEmployee.positionName.toUpperCase()
-                  }}</span>
-                </div>
-              </th>
-              <th colspan="8" style="min-width: 200px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{
-                      infoEmployee.department.toUpperCase()
-                  }}</span>
-                </div>
-              </th>
-              <th colspan="9" style="min-width: 144px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{ infoEmployee.bankAccount.toUpperCase() }}
-                  </span>
-                </div>
-              </th>
-              <th colspan="10" style="min-width: 181px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{ infoEmployee.bankName.toUpperCase() }}
-                  </span>
-                </div>
-              </th>
-              <th colspan="11" style="min-width: 180px">
-                <div class="th-item">
-                  <span class="table-text text-align-center">{{ infoEmployee.bankBranch.toUpperCase() }}
-                  </span>
-                </div>
-              </th>
-              <th class="th-item-final sticky-right-top" colspan="12" style="min-width: 100px; text-align: center">
-                <div class="th-item">
-                  <span class="table-text">{{ infoEmployee.func.toUpperCase() }}
-                  </span>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ref="row" v-for="employee in employees" @dblclick="editOnclick(employee)" :key="employee.EmployeeId"
-              @click="rowOnclick(employee)">
-              <td ref="rowCheck" class="checkbox sticky-left"  style="text-align: center" colspan="1">
-                <input @click="check(employee)" ref="check" class="check-item" type="checkbox" style="width: 18px; height: 18px" />
-              </td>
-              <td colspan="2">
-                <div class="td-item">
-                  <span class="table-text text-align-center">{{
-                      employee.employeeCode
-                  }}</span>
-                </div>
-              </td>
-              <td colspan="3">
-                <div class="td-item">
-                  <span class="table-text">{{ employee.employeeName }}</span>
-                </div>
-              </td>
-              <td colspan="4" style="text-align: center">
-                <div class="td-item">
-                  <span class="table-text text-align-center">{{
-                      formatDate(employee.dateOfBirth)
-                  }}</span>
-                </div>
-              </td>
-              <td colspan="5">
-                <div class="td-item">
-                  <span class="table-text">{{formatGender(employee.gender)  }}</span>
-                </div>
-              </td>
-              <td colspan="6">
-                <div class="td-item">
-                  <span class="table-text">{{ employee.identityNumber }}</span>
-                </div>
-              </td>
-              <td colspan="7">
-                <div class="td-item">
-                  <span class="table-text">{{ employee.positionName }}</span>
-                </div>
-              </td>
-              <td colspan="8">
-                <div class="td-item">
-                  <span class="table-text">{{ employee.departmentName }}</span>
-                </div>
-              </td>
-              <td colspan="9">
-                <div class="td-item">
-                  <span class="table-text">{{employee.bankAccount}}</span>
-                </div>
-              </td>
-              <td colspan="10">
-                <div class="td-item">
-                  <span class="table-text">{{employee.bankName}}</span>
-                </div>
-              </td>
-              <td colspan="11">
-                <div class="td-item">
-                  <span class="table-text">{{employee.bankBranch}} </span>
-                </div>
-              </td>
-              <td ref="func" class="td-item-final td-func sticky-right"  style="position: sticky; right: 0; background-color: #fff"
-                colspan="12">
-                <div @click="editOnclick(employee)" class="edit-text">
-                  {{ btn.editBtn }}
-                </div>
-                <div ref="btnMenu" class="btnMenu" @click="showMenu" >
-                  <div class="icon-down" style="border: none; z-index: -1"></div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="paging">
-        <div class="paging-left">
-          {{ infoEmployee.total }}:
-          <strong>{{ pageDefault }}/{{ totalRecord }}</strong>
-          {{ infoEmployee.record }}
-        </div>
-        <div class="paging-right">
-          <div class="page">
-            <div class="content-page">
-              {{ pageDefault }} {{ infoEmployee.pageSize }}
+      <div class="main-table">
+        <div class="main-table-header">
+          <div>
+            <button @click="btnDeleteMultiple" class="action-multiple">
+              <p>Thực hiện hàng loạt </p>
+              <div ref="iconDrop" class="icon-drop" v-bind="iconDrop"></div>
+            </button>
+            <button v-show="isShowBtnDelete" @click="btnDelete" class="delete-multiple">Xóa</button>
+          </div>
+          <div class="main-header-right">
+            <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtsearch" type="text"
+              :placeholder="infoEmployee.search" />
+            <div class="icon-search"></div>
+            <div data-title="lấy lại dữ liệu" id="refresh" @click="filterEmployee" class="icon-refresh">
+              <span id="" class="icon-refresh"> </span>
             </div>
-            <div class="dropup-page">
-              <div class="icon-dropup" @click="btnDropUp" ></div>
-              <div class="item-up" v-show="isShow" v-clickoutside="hidePaging">
-                <div class="item-dropup" :class="{act: isActive=== '10'}"  pageSize="10" :value="pageDefault" @click="getPageDefault">
-                  10 {{ infoEmployee.pageSize }}
-                </div>
-                <div class="item-dropup" :class="{act: isActive=='20'}" pageSize="20" @click="getPageDefault">
-                  20 {{ infoEmployee.pageSize }}
-                </div>
-                <div class="item-dropup" :class="{act: isActive=='30'}" pageSize="30" @click="getPageDefault">
-                  30 {{ infoEmployee.pageSize }}
-                </div>
-                <div class="item-dropup" :class="{act: isActive=='50'}" pageSize="50" @click="getPageDefault">
-                  50 {{ infoEmployee.pageSize }}
-                </div>
-                <div class="item-dropup" :class="{act: isActive=='100'}" pageSize="100" @click="getPageDefault">
-                  100 {{ infoEmployee.pageSize }}
+            <a data-title="Xuất ra Excel" id="excel"
+              :href="`http://localhost:3131/api/v1/Employees/ExportExcel?keyword=${this.txtSearch}`" class="icon-excel"
+              download>
+              <span id="" :myData="filterEmployee" class="icon-excel"> </span>
+            </a>
+          </div>
+        </div>
+        <div id="m-table" class="m-table">
+          <DropFunction v-show="isShowMenu" :empDeleteCode="employeeCode" @closeDrop="hideDropMenu"
+            :employeeDeleteId="employeeId" :employeeDetails="employeeRepli" :emplyeeCode="employeeCode"
+            :loadData="filterEmployee" :newEmployeeCode="getNewEmployeeCode"></DropFunction>
+          <table id="tbEmployee" class="table">
+            <thead>
+              <tr>
+                <th class="sticky-left-top checkbox" colspan="1" style="min-width: 30px !important; text-align: center">
+                  <input @click="checkAll" ref="checkall" type="checkBox" class="check-all"
+                    style="width: 18px; height: 18px" />
+                </th>
+                <th colspan="2" style="min-width: 144px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{ infoEmployee.empCode.toUpperCase() }}
+                    </span>
+                  </div>
+                </th>
+                <th colspan="3" style="min-width: 155px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{
+                    infoEmployee.empName.toUpperCase()
+                    }}</span>
+                  </div>
+                </th>
+                <th colspan="4" style="min-width: 126px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{
+                    infoEmployee.gender.toUpperCase()
+                    }}</span>
+                  </div>
+                </th>
+                <th colspan="5" style="min-width: 151px; text-align: center">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{
+                    infoEmployee.dob.toUpperCase()
+                    }}</span>
+                  </div>
+                </th>
+              
+                <th class="iden-tool" colspan="6" style="min-width: 150px" title="Số chứng minh nhân dân">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{
+                    infoEmployee.idenNumber.toUpperCase()
+                    }}</span>
+                  </div>
+                </th>
+                <th colspan="7" style="min-width: 150px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{
+                    infoEmployee.positionName.toUpperCase()
+                    }}</span>
+                  </div>
+                </th>
+                <th colspan="8" style="min-width: 200px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{
+                    infoEmployee.department.toUpperCase()
+                    }}</span>
+                  </div>
+                </th>
+                <th colspan="9" style="min-width: 144px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{ infoEmployee.bankAccount.toUpperCase() }}
+                    </span>
+                  </div>
+                </th>
+                <th colspan="10" style="min-width: 181px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{ infoEmployee.bankName.toUpperCase() }}
+                    </span>
+                  </div>
+                </th>
+                <th colspan="11" style="min-width: 180px">
+                  <div class="th-item">
+                    <span class="table-text text-align-center">{{ infoEmployee.bankBranch.toUpperCase() }}
+                    </span>
+                  </div>
+                </th>
+                <th class="th-item-final sticky-right-top" colspan="12" style="min-width: 100px; text-align: center">
+                  <div class="th-item">
+                    <span class="table-text">{{ infoEmployee.func.toUpperCase() }}
+                    </span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ref="row" v-for="employee in employees" @dblclick="editOnclick(employee)" :key="employee.EmployeeID"
+                @click="rowOnclick(employee)">
+                <td ref="rowCheck" class="checkbox sticky-left" style="text-align: center" colspan="1">
+                  <input @click="check" ref="check" class="check-item" type="checkbox"
+                    style="width: 18px; height: 18px" />
+                </td>
+                <td colspan="2">
+                  <div class="td-item">
+                    <span class="table-text text-align-center">{{
+                    employee.EmployeeCode
+                    }}</span>
+                  </div>
+                </td>
+                <td colspan="3">
+                  <div class="td-item">
+                    <span class="table-text">{{ employee.EmployeeName }}</span>
+                  </div>
+                </td>
+                <td colspan="4">
+                  <div class="td-item">
+                    <span class="table-text">{{formatGender(employee.Gender) }}</span>
+                  </div>
+                </td>
+                <td colspan="5" style="text-align: center">
+                  <div class="td-item">
+                    <span class="table-text text-align-center">{{
+                    formatDate(employee.DateOfBirth)
+                    }}</span>
+                  </div>
+                </td>
+                
+                <td colspan="6">
+                  <div class="td-item">
+                    <span class="table-text">{{ employee.IdentityNumber }}</span>
+                  </div>
+                </td>
+                <td colspan="7">
+                  <div class="td-item">
+                    <span class="table-text">{{ employee.PositionName }}</span>
+                  </div>
+                </td>
+                <td colspan="8">
+                  <div class="td-item">
+                    <span class="table-text">{{ employee.DepartmentName }}</span>
+                  </div>
+                </td>
+                <td colspan="9">
+                  <div class="td-item">
+                    <span class="table-text">{{employee.BankAccount}}</span>
+                  </div>
+                </td>
+                <td colspan="10">
+                  <div class="td-item">
+                    <span class="table-text">{{employee.BankName}}</span>
+                  </div>
+                </td>
+                <td colspan="11">
+                  <div class="td-item">
+                    <span class="table-text">{{employee.BankBranch}} </span>
+                  </div>
+                </td>
+                <td ref="func" class="td-item-final td-func sticky-right"
+                  style="position: sticky; right: 0; background-color: #fff" colspan="12">
+                  <div @click="editOnclick(employee)" class="edit-text">
+                    {{ btn.editBtn }}
+                  </div>
+                  <button ref="btnMenu" id="btnMenu" @click="showMenu($event)" > <div
+                      class="icon-down"></div> </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="paging">
+          <div class="paging-left">
+            {{ infoEmployee.total }}:
+            <strong>{{ totalRecord }}</strong>
+            {{ infoEmployee.record }}
+          </div>
+          <div class="paging-right">
+            <div class="page">
+              <div class="content-page">
+                {{ pageDefault }} {{ infoEmployee.pageSize }}
+              </div>
+              <div class="dropup-page">
+                <div class="icon-dropup" @click="btnDropUp"></div>
+                <div class="item-up" v-show="isShow">
+                  <div class="item-dropup" :class="{act: isActive == '10'}" pageSize="10" :value="pageDefault"
+                    @click="getPageDefault">
+                    10 {{ infoEmployee.pageSize }}
+                  </div>
+                  <div class="item-dropup" :class="{act: isActive=='20'}" pageSize="20" @click="getPageDefault">
+                    20 {{ infoEmployee.pageSize }}
+                  </div>
+                  <div class="item-dropup" :class="{act: isActive =='30'}" pageSize="30" @click="getPageDefault">
+                    30 {{ infoEmployee.pageSize }}
+                  </div>
+                  <div class="item-dropup" :class="{act: isActive=='50'}" pageSize="50" @click="getPageDefault">
+                    50 {{ infoEmployee.pageSize }}
+                  </div>
+                  <div class="item-dropup" :class="{act: isActive=='100'}" pageSize="100" @click="getPageDefault">
+                    100 {{ infoEmployee.pageSize }}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div>
-            <Paginate v-model="page" :page-count="totalPage" :page-range="3" :margin-pages="1"
-              :click-handler="clickCallback" :prev-text="'Trước'" :next-text="'Sau'" :container-class="'pagination'"
-              :page-class="'page-item'">
-            </Paginate>
+            <div>
+              <Paginate v-model="page" :page-count="totalPage" :page-range="3" :margin-pages="1"
+                :click-handler="clickCallback" :prev-text="'Trước'" :next-text="'Sau'" :container-class="'pagination'"
+                :page-class="'page-item'">
+              </Paginate>
+            </div>
           </div>
         </div>
       </div>
-     
     </div>
-   
+    <LoadData v-show="loading"> </LoadData>
   </div>
-  <LoadData v-show="loading"> </LoadData>
-  </div>
-  <EmployeeDetail v-show="isShowEmployeeDetail" :showDialog="isShowEmployeeDetail" @showDialog="functionShowDialog"
+  <EmployeeDetail v-show="isShowEmployeeDetail" :showDialog="isShowEmployeeDetail" @showDialog="hideFormDetail"
     :employeeDetail="employeeSelected" :employeeSelectedId="employeeId" :newEmployeeCode="newCode"
-    :formMode="formModeDetail"  :code="empCode" :employeeCode="employeeCode"
-    :addOnclick="btnAddOnClick" :loadData="filterEmployee" />
-  <MsgDelete v-show="isShowMsgDelete" @noDelete="showMsgDelete" @delete="deleteMultipleEmployee"></MsgDelete>
+    :formMode="formModeDetail" :employeeCode="employeeCode" :loadData="filterEmployee" />
+  <MsgDelete :message="message" v-show="isShowMsgDelete" @noDelete="showMsgDelete" @delete="deleteMultipleEmployee">
+  </MsgDelete>
 </template>
 <style>
-@import url("../../css/base/main.css");
+@import url("../../assets/css/base/main.css");
 
 .pagination {
   margin-left: 20px;
@@ -246,9 +253,14 @@
   color: #111;
   font-size: 13px;
 }
-.act{
+
+.act {
   background-color: green;
-  color:#fff;
+  color: #fff;
+}
+
+.BorderActive {
+  border: 1px solid #0075c0 !important;
 }
 
 .page-item:first-child {
@@ -280,75 +292,52 @@
   width: 24px;
   text-align: center;
 }
+
+.opacity-icon {
+  opacity: 0.5;
+}
 </style>
 <script>
-
 import Paginate from "vuejs-paginate-next";
-import info from "../../Locale/LocaleTableEmployee";
-import btn from "../../Locale/LocaleButton";
+import info from "../../locales/LocaleTableEmployee";
+import btn from "../../locales/LocaleButton";
 import EmployeeDetail from "./TheEmployeeDetail.vue";
-import LoadData from "../../components/Base/BaseLoading.vue";
-import DropFunction from "../Base/BaseFuncDrop.vue";
+import LoadData from "../../components/base/BaseLoading.vue";
+import DropFunction from "../base/BaseFuncDrop.vue";
 import $ from "jquery";
 import axios from "axios";
-import MsgDelete from "../Base/BaseMsgDelete.vue";
+import MsgDelete from "../base/BaseMsgDelete.vue";
 import { useToast } from "vue-toastification";
+import Msg from "../../utils/common";
 
-/**
- * xử lý khi click ra ngoài combobox thì combobox ẩn đi
- * AUTHOR: HTTHOA(05/08/2022)
- */
- const clickoutside = {
-  mounted(el, binding) {
-    el.clickOutsideEvent = (event) => {
-      
-      if (
-        !(
-          (
-            el === event.target || 
-            el.contains(event.target) || 
-            el.previousElementSibling.contains(event.target)
-          )
-        )
-      ) {      
-        binding.value(event, el);
-      }
-    };
-    document.body.addEventListener("click", el.clickOutsideEvent);
-  },
-  beforeUnmount: (el) => {
-    document.body.removeEventListener("click", el.clickOutsideEvent);
-  },
-};
-
+import { employeeApi } from "../../store/api";
+import { FormMode } from "../../utils/enumeration"
 export default {
-  directives: {
-    clickoutside,
-  },
- 
   components: {
     EmployeeDetail,
     LoadData,
     DropFunction,
     Paginate,
-    MsgDelete
+    MsgDelete,
+    
   },
-
   data() {
     return {
+      isShowBtnDelete: false,
       isActive: "10",
       pageNumber: 1,
       page: 1,
       totalPage: 0,
       totalRecord: 0,
+      isBorderActive: "",
       btn: btn,
+      Msg: Msg,
       infoEmployee: info,
       employeeDelete: {},
-      btnEdit: "",
       isShowMenu: false,
       txtSearch: "",
       loading: false,
-      formModeDetail: 1,
+      formModeDetail: FormMode.Add,
       employeeId: null,
       isShowDrop: false,
       isShow: false,
@@ -358,15 +347,14 @@ export default {
       date: null,
       employees: [],
       pageDefault: 10,
-      emplyeeCode: "",
+      employeeCode: "",
       isShowMsgDelete: false,
       empCode: [],
       listEmployeeID: [],
-      arrGender:[],
-      gender:"",
-      isSuccess:false 
-  
-      
+      arrGender: [],
+      gender: "",
+      message: "",
+      employeeRepli: {}
     };
   },
   /**
@@ -374,123 +362,171 @@ export default {
    * AUTHOR: HTTHOA(20/08/2022)
    */
   created() {
-    
     this.filterEmployee();
-    
-   
   },
-  mounted(){
-    /**
-     * click ra ngoài đóng menu function
-     * AUTHOR: HTTHOA(1/09/2022)
-     */
+  mounted() {
     let me = this;
     $(window).click(function (e) {
-      if($(e.target).attr("class") !== "btnMenu" && $(e.target).attr("class")!=="item-func"){
-           me.clickOutsideMenu()
-        }
-        
+      /**
+    * click ra ngoài đóng btn xóa
+    * AUTHOR: HTTHOA(1/09/2022)
+    */
+      if ($(e.target).attr("class") !== "delete-multiple" && $(e.target).attr("class") !== "action-multiple") {
+        me.hideBtnDelete()
+      }
+      /**
+       * click ra ngoài đóng dropdown paging
+       * AUTHOR: HTTHOA(1/09/2022)
+       */
+      if ($(e.target).attr("class") !== "page" && !$(".page").has(e.target).length) {
+        me.hidePaging()
+      }
+      if ($(e.target).attr("id") !== "btnMenu" && $(e.target).attr("class") !== "item-func" && !$(".dialog").has(e.target).length && $(e.target).attr("class") !== "edit-text") {
+          me.clickOutSideDropMenu()
+      }
     })
-  },
-
-  watch: {
-     /**
-     * theo dõi khi chọn bản ghi trên 1 trang  thì lấy lại dữ liệu
-     * AUTHOR: HTTHOA(20/08/2022)
+    /**
+     * click ra ngoài đóng dropmenu chức năng
+     * AUTHOR: HTTHOA(7/09/2022)
      */
+ 
+     
+   
+
+    /**
+    * thay đổi màu của icon nút thực hiện hàng loạt khi không chọn dữ liệu
+    * AUTHOR: HTTHOA(7/09/2022)
+    */
+    var opacity = this.$refs.iconDrop;
+    opacity.classList.add("opacity-icon")
+
+  },
+  watch: {
+    /**
+    * theo dõi khi chọn bản ghi trên 1 trang  thì lấy lại dữ liệu
+    * AUTHOR: HTTHOA(20/08/2022)
+    */
     pageDefault: function () {
       this.filterEmployee();
     },
-     /**
-     * theo dõi ô input khi người dùng nhập keyword
-     * AUTHOR: HTTHOA(20/08/2022)
-     */
-    txtSearch: function(){
-     console.log(this.txtSearch)
-     if(this.txtSearch==""){
-      this.filterEmployee();
-     }
+    /**
+    * theo dõi ô input khi người dùng nhập keyword
+    * AUTHOR: HTTHOA(20/08/2022)
+    */
+    txtSearch: function () {
+      if (this.txtSearch == "") {
+        this.filterEmployee();
       }
+    }
   },
   methods: {
     /**
-     * tìm kiếm
-     * AUTHOR: HTTHOA (19/08/2022)
-     */
-    btnSearch() {
-      this.filterEmployee();
-    },
-     /**
-     * hàm ẩn menu 
-     * AUTHOR: HTTHOA(1/09/2022)
-     */
-    clickOutsideMenu() {
-    this.isShowMenu=false
-    },
-    
-    
-
-    /**
-     *
-     * @param {hiển thị vị trí dropdown chức năng xóa} e
-     * AUTHOR: HTTHOA (11/08/2022)
-     */
-    showMenu(e) {
-      // if (this.btnEdit !== "" || this.showDropMenu(false)) {
-      //   this.btnEdit.classList.toggle("border-blue");
-      // }
-      // this.btnEdit = e.target;
-      // this.btnEdit.classList.add("border-blue");
-      var btnMenu= this.$refs.btnMenu;
-       let position = $(e.target)[0].getBoundingClientRect();
-      var top = position.top;
-      var left = position.left;
-      $(".listFunction").css("top", top - 20 + "px");
-      $(".listFunction").css("left", left - 270 + "px");
-       
-        
-          if (!this.isShowMenu ) {
-          this.showDropMenu(true)
-        }
-     
-      else {
-        this.showDropMenu(false)
-  
-    }  
-    },
-    
-
-    /**
-     * hiển thị chức năng nhân bản, xóa,...
+     * lấy số bản ghi trên 1 trang số trang và tìm kiếm trên api
      * AUTHOR: HTTHOA(11/08/2022)
-     *
      */
-    showDropMenu(value) {
-      this.isShowMenu = value;
-      
+    filterEmployee() {
+      try {
+        const toast = useToast();
+        var me = this;
+        this.showLoading(true);
+        axios
+          .get(`${employeeApi}Filter?keyword=${this.txtSearch}&pageSize=${this.pageDefault}&pageNumber=${this.pageNumber}`)
+          .then(function (res) {
+            me.totalPage = res.data.TotalPages;
+            me.totalRecord = res.data.TotalRecords;
+            me.employees = res.data.Data;
+            for (var emp of res.data.Data) {
+              me.arrGender.push(emp.Gender)
+            }
+          })
+          .then(function () {
+            me.showLoading(false);
+          })
+          .catch(function () {
+            toast.error(Msg.Error, { timeout: 2000 });
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
-     /**
-     * hàm ẩn drop menu
-     * AUTHOR: HTTHOA(1/09/2022)
-     */
-    hideDropMenu(value){
-    
-      this.isShowMenu=value;
-        this.filterEmployee(value)
-    },
-    
     /**
-     * xử lý sự kiện button add
+     * format Date sang dạng dd/mm/yyyy
      * AUTHOR: HTTHOA(05/08/2022)
      */
+    formatDate(Dob) {
+      if (Dob) {
+        Dob = new Date(Dob);
+        let date = Dob.getDate();
+        date = date < 10 ? `0${date}` : date;
+        let month = Dob.getMonth() + 1;
+        month = month < 10 ? `0${month}` : month;
+        let year = Dob.getFullYear();
+        Dob = `${date}-${month}-${year}`;
+      } else {
+        Dob = "";
+      }
+      return Dob;
+    },
+    /**
+     * hiển thị giới tính từ 0,1,2 sang nam, nữ, khác trên bảng
+     * AUTHOR: HTTHOA(20/08/2022)
+     */
+    formatGender(gender) {
+      switch (gender) {
+        case 0:
+          gender = "Nam";
+          break;
+        case 1:
+          gender = "Nữ";
+          break;
+        case 2:
+          gender = "Khác";
+          break;
+        default:
+          gender = "";
+      }
+      return gender;
+    },
+    /**
+     *
+     * show biểu tượng loading 
+     * AUTHOR: HTTHOA(06/08/2022)
+     */
+    showLoading(value) {
+      this.loading = value;
+    },
+    /**
+   * xử lý sự kiện button add
+   * AUTHOR: HTTHOA(05/08/2022)
+   */
     btnAddOnClick() {
-      this.formModeDetail = 1;
+      this.formModeDetail = FormMode.Add;
       this.employeeSelected = {};
       this.employeeId = null;
       this.functionShowDialog(true);
-    
       this.newCode = {};
       this.getNewEmployeeCode();
+    },
+    /**
+     * lấy mã  nhân viên mới
+     * AUTHOR: HTTHOA(09/08/2022)
+     */
+    getNewEmployeeCode() {
+      try {
+        const toast = useToast();
+        var me = this;
+        //sau reset thì lấy nhân viên mới
+        axios
+          .get(`${employeeApi}NewCode`)
+          .then(function (res) {
+            me.newCode = res.data;
+          })
+          .catch(function (response) {
+            toast.error(Msg.Error, { timeout: 2000 });
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      *
@@ -498,8 +534,73 @@ export default {
      * AUTHOR: HTTHOA(05/08/2022)
      */
     functionShowDialog(value) {
-      this.filterEmployee();
       this.isShowEmployeeDetail = value;
+      this.filterEmployee();
+    },
+    /**
+     *
+     * hiển thị,đóng form chi tiết 
+     *  Authors: HTTHOA(05/08/2022)
+     *
+     */
+    hideFormDetail(value) {
+      this.isShowEmployeeDetail = value;
+    },
+    /**
+     * tìm kiếm
+     * AUTHOR: HTTHOA (19/08/2022)
+     */
+    btnSearch() {
+      this.filterEmployee();
+    },
+    /**
+    * mở file excel trong tab mới để tải
+    * AUTHOR: HTTHOA(1/09/2022)
+    */
+    getExcel() {
+      try {
+        const toast = useToast();
+        axios
+          .get(`${employeeApi}ExportExcel?keyword=${this.txtSearch}`)
+          .then(function (res) {
+          })
+          .catch(function (response) {
+            toast.error(Msg.Error, { timeout: 2000 });
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+   
+    /**
+     *
+     * hiển thị vị trí dropdown chức năng xóa
+     * AUTHOR: HTTHOA (11/08/2022)
+     */
+    showMenu(e) {
+
+      let position = $(e.target)[0].getBoundingClientRect();
+      var top = position.top;
+      var left = position.left;
+      $(".listFunction").css("top", top - 28 + "px");
+      $(".listFunction").css("left", left - 270 + "px");
+      this.isShowMenu =  true;
+
+    },
+    /**
+    * hàm ẩn drop menu
+    * AUTHOR: HTTHOA(1/09/2022)
+    */
+    hideDropMenu(value) {
+      this.isShowMenu = value;
+      this.filterEmployee(value)
+    },
+    /**
+     * click ra ngoài ẩn menu chức năng
+     * AUTHOR: HTTHOA(7/09/2022)
+     */
+    clickOutSideDropMenu() {
+      this.isShowMenu=false
     },
     /**
      *
@@ -508,126 +609,178 @@ export default {
      */
     rowOnclick(employee) {
       this.employeeDelete = employee;
-      this.employeeId = employee.employeeID;
-      this.emplyeeCode = employee.employeeCode;
-      this.employeeSelected = employee;
-     
+      this.employeeId = employee.EmployeeID;
+      this.employeeCode = employee.EmployeeCode;
+      this.employeeRepli = employee;
+
     },
     /**
      * hiển thị dữ liệu khi click vào sửa
      * AUTHOR: HTTHOA(08/08/2022)
      */
     editOnclick(employee) {
-      this.formModeDetail = 0;
+      this.formModeDetail = FormMode.Edit;
       this.functionShowDialog(true);
       this.employeeSelected = employee;
-      this.employeeId = employee.employeeID;
+      this.employeeId = employee.EmployeeID;
       this.filterEmployee()
-      
-    },
-     /**
-     * show confirm xóa
-     * AUTHOR: HTTHOA(2/09/2022)
-     */
-    showMsgDelete(value){
-    this.isShowMsgDelete=value
-   },
-    /**
-     * nhấn nút thực hiện hàng loạt để hiện msg confirm xóa
-     * AUTHOR: HTTHOA(2/09/2022)
-     */
-   btnDeleteMultiple(){
-    if(this.listEmployeeID.length >0){
-      this.showMsgDelete(true)
-    }
-
-   },
-    /**
-     * hàm api xóa hàng loạt employee
-     * AUTHOR: HTTHOA (2/09/2022)
-     */
-     deleteMultipleEmployee() {
-      const toast = useToast();
-      var me= this;
-        axios
-        .put("http://localhost:3131/api/v1/Employees/Multiple?ListId=",this.listEmployeeID)
-       
-        .then(function(){
-          me.showMsgDelete(false)
-          toast.warning("Xóa nhân viên thành công", { timeout: 2000 });
-          me.filterEmployee()
-        })
-        .catch(function () {});     
-        
     },
     /**
-     * xử lý check từng hàng khi tích vào ô check box 
-     * AUTHOR: HTTHOA(30/08/2022)
-     */
+  * xử lý check từng hàng khi tích vào ô check box 
+  * AUTHOR: HTTHOA(30/08/2022)
+  */
     check() {
       this.listEmployeeID = [];
-      var listCheck=this.$refs.check;
-      var rowCheck= this.$refs.row;
+      var listCheck = this.$refs.check;
+      var rowCheck = this.$refs.row;
       var funcCheck = this.$refs.func;
-      var check= this.$refs.rowCheck;
-      var listEmp=[];
+      var check = this.$refs.rowCheck;
+      var listEmp = [];
       for (var emp of this.employees) {
-       listEmp.push(emp.employeeID)
-      
+        listEmp.push(emp.EmployeeID)
       }
-      console.log(funcCheck.length)
-      for(var i=0; i < listCheck.length; i++ ){
-         this.listEmployeeID.unshift(listEmp[i]); 
-        if (listCheck[i].checked==true) {      
+      for (var i = 0; i < listCheck.length; i++) {
+        this.listEmployeeID.unshift(listEmp[i]);
+        if (listCheck[i].checked == true) {
           rowCheck[i].classList.add("row-active")
           check[i].classList.add("row-active")
           funcCheck[i].classList.add("row-active")
-         
-        
-     }else{
-      this.listEmployeeID.splice(listEmp[i],1)
-        rowCheck[i].classList.remove("row-active")
+        } else {
+          this.listEmployeeID.splice(listEmp[i], 1)
+          rowCheck[i].classList.remove("row-active")
           check[i].classList.remove("row-active")
           funcCheck[i].classList.remove("row-active")
-     }
-
+        }
       }
-      console.log(this.listEmployeeID);
+      this.iconDropDelete()
     },
-   
-  
+    /**
+     * thay đổi màu của icon thực hiện hàng loạt
+     * AUTHOR: HTTHOA(6/09/2022)
+     */
+    iconDropDelete() {
+      var opacity = this.$refs.iconDrop;
+      if (this.listEmployeeID.length > 0) {
+        opacity.classList.remove("opacity-icon")
+      } else {
+        opacity.classList.add("opacity-icon")
+      }
+    },
     /**
      * xử lý check tất cả các hàng khi tích vào ô check box đầu tiên
      * AUTHOR: HTTHOA(30/08/2022)
      */
     checkAll() {
-      var rowCheck= this.$refs.row;
+      var rowCheck = this.$refs.row;
       var funcCheck = this.$refs.func;
-      var check= this.$refs.rowCheck;
+      var check = this.$refs.rowCheck;
       this.listEmployeeID = [];
-      var listCheck=this.$refs.check;
-      if (this.$refs.checkall.checked) { 
-        for(let i=0; i< listCheck.length; i++){
-          listCheck[i].checked=true
-          rowCheck[i].classList.add("row-active")
-          check[i].classList.add("row-active")
-          funcCheck[i].classList.add("row-active")
-        }     
+      var listCheck = this.$refs.check;
+      if (this.$refs.checkall.checked) {
         for (var emp of this.employees) {
-               
-          this.listEmployeeID.push(emp.employeeID);        
+          for (let i = 0; i < listCheck.length; i++) {
+            listCheck[i].checked = true
+            rowCheck[i].classList.add("row-active")
+            check[i].classList.add("row-active")
+            funcCheck[i].classList.add("row-active")
+          }
+          this.listEmployeeID.push(emp.EmployeeID);
         }
       } else {
-        for(let i=0; i< listCheck.length; i++){
-          listCheck[i].checked=false
+        for (let i = 0; i < listCheck.length; i++) {
+          listCheck[i].checked = false
           rowCheck[i].classList.remove("row-active")
           check[i].classList.remove("row-active")
           funcCheck[i].classList.remove("row-active")
-        }   
+        }
         this.listEmployeeID = [];
       }
+      console.log(this.listEmployeeID)
+      this.iconDropDelete()
+    },
+    /**
+     * nhấn nút thực hiện hàng loạt để hiện nút thực hiện hàng loạt
+     * AUTHOR: HTTHOA(2/09/2022)
+     */
+    btnDeleteMultiple() {
+      if (this.listEmployeeID.length > 0) {
+        this.isShowBtnDelete = true
+      }
+    },
+    /**
+      * show confirm xóa
+      * AUTHOR: HTTHOA(2/09/2022)
+      */
+    showMsgDelete(value) {
+      this.isShowMsgDelete = value
+    },
+    /**
+     * ấn nút xóa khi đã chọn hàng => hiện confirm xóa
+     *  AUTHOR: HTTHOA(2/09/2022)
+     */
+    btnDelete() {
+      this.showMsgDelete(true);
+      this.message = Msg.MsgDelete
+    },
+    /**
+     *
+     * đóng btn xóa
+     *  Authors: HTTHOA(09/09/2022)
+     *
+     */
+    hideBtnDelete() {
+      this.isShowBtnDelete = false
+    },
+    /**
+     * hàm api xóa hàng loạt employee
+     * AUTHOR: HTTHOA (2/09/2022)
+     */
+    deleteMultipleEmployee() {
+      try {
+        const toast = useToast();
+        var me = this;
+        axios
+          .put(`${employeeApi}Multiple?ListId=`, this.listEmployeeID)
+          .then(function () {
+            me.showMsgDelete(false);
+            toast.warning(Msg.DeleteSuccess, { timeout: 2000 });
+            me.getEmployeeAfterDelete();
+          })
+          .catch(function () {
+            toast.error(Msg.Error, { timeout: 2000 });
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * load lại dữ liệu khi xóa xong
+     * AUTHOR: HTTHOA(05/09/2022)
+     */
+    getEmployeeAfterDelete() {
+      this.filterEmployee();
+      this.listEmployeeID = [];
+      var listCheck = this.$refs.check;
+      var rowCheck = this.$refs.row;
+      var funcCheck = this.$refs.func;
+      var checkAll = this.$refs.checkall;
+      var check = this.$refs.rowCheck;
+      checkAll.checked = false
+      for (var i = 0; i < listCheck.length; i++) {
+        listCheck[i].checked = false
+        rowCheck[i].classList.remove("row-active")
+        check[i].classList.remove("row-active")
+        funcCheck[i].classList.remove("row-active")
 
-      console.log(this.listEmployeeID);
+      }
+    },
+    /**
+     *
+     * hiển thị paging
+     *  AUTHOR: HTTHOA(05/08/2022)
+     */
+    showPage(is) {
+      this.isShow = is;
     },
     /**
      * hàm hiện dropup
@@ -643,55 +796,13 @@ export default {
         $(".icon-dropup").removeClass("iconrotate");
       }
     },
-     /**
-     * ẩn combobox paging
-     * AUTHOR: HTTHOA(1/09/2022)
-     */
-    hidePaging(){
-      this.isShow=false
+    /**
+    * ẩn combobox paging
+    * AUTHOR: HTTHOA(1/09/2022)
+    */
+    hidePaging() {
+      this.isShow = false
       $(".icon-dropup").removeClass("iconrotate");
-    },
-    /**
-     *
-     * @param {hiển thị paging} is
-     *  AUTHOR: HTTHOA(05/08/2022)
-     */
-    showPage(is) {
-      this.isShow = is;
-    },
-    /**
-     * mở file excel trong tab mới để tải
-     * AUTHOR: HTTHOA(1/09/2022)
-     */
-    getExcel(){
-      window.open("http://localhost:3131/api/v1/Employees/exportExcel","Xuất file excel")
-
-    },
-
-    /**
-     * lấy mã  nhân viên mới
-     * AUTHOR: HTTHOA(09/08/2022)
-     */
-    getNewEmployeeCode() {
-      var me = this;
-      //sau reset thì lấy nhân viên mới
-      axios
-        .get("http://localhost:3131/api/v1/Employees/NewCode")
-        .then(function (res) {
-          me.newCode = res.data;
-          console.log(me.newCode);
-        })
-        .catch(function (response) {
-          console.log(response);
-        });
-    },
-    /**
-     *
-     * show biểu tượng loading 
-     * AUTHOR: HTTHOA(06/08/2022)
-     */
-    showLoading(value) {
-      this.loading = value;
     },
     /**
      *
@@ -699,58 +810,14 @@ export default {
      * AUTHOR: HTTHOA(05/08/2022)
      */
     getPageDefault(e) {
-      this.isActive=e.target.getAttribute("pageSize");
+      this.isActive = e.target.getAttribute("pageSize");
       this.pageDefault = e.target.getAttribute("pageSize");
-   
-      console.log(this.pageDefault);
       this.showPage(false);
       $(".icon-dropup").removeClass("iconrotate");
-     
       this.filterEmployee();
       if (this.pageDefault > this.totalRecord) {
         this.pageDefault = this.totalRecord;
       }
-    },
-    /**
-     * format Date
-     * AUTHOR: HTTHOA(05/08/2022)
-     */
-    formatDate(Dob) {
-      if (Dob) {
-        Dob = new Date(Dob);
-        let date = Dob.getDate();
-        date = date < 10 ? `0${date}` : date;
-        let month = Dob.getMonth() + 1;
-        month = month < 10 ? `0${month}` : month;
-        let year = Dob.getFullYear();
-        Dob =  `${year}-${month}-${date}`;
-        
-      } else {
-        Dob = "";
-      }
-      return Dob;
-    },
-    /**
-     * hiển thị giới tính từ 0,1,2 sang nam, nữ, khác trên bảng
-     * AUTHOR: HTTHOA(20/08/2022)
-     */
-     formatGender(gender){
-      
-      switch(gender){
-        case 0:
-          gender="Nam";
-          break;
-        case 1:
-         gender="Nữ";
-          break;
-        case 2:
-          gender="Khác";
-          break;
-         default:
-         gender="";
-      }
-   return gender;
-
     },
     /**
      * hàm click vào số trang
@@ -759,31 +826,6 @@ export default {
     clickCallback(pageNum) {
       this.pageNumber = pageNum;
       this.filterEmployee();
-    },
-    /**
-     * lấy số bản ghi trên 1 trang số trang và tìm kiếm trên api
-     * AUTHOR: HTTHOA(11/08/2022)
-     */
-    filterEmployee() {
-     
-      var me = this;
-
-      this.showLoading(true);
-      axios
-        .get(`http://localhost:3131/api/v1/Employees/Filter?keyword=${this.txtSearch}&pageSize=${this.pageDefault}&pageNumber=${this.pageNumber}`)
-        .then(function (res) {
-          me.totalPage = res.data.totalPages;
-          me.totalRecord = res.data.totalRecords;
-          me.employees = res.data.data;
-         console.log(res.data.data)
-        for(var emp of res.data.data){
-          me.arrGender.push(emp.gender)
-        }
-        })
-        .then(function () {
-          me.showLoading(false);
-        })
-        .catch(function () {});
     },
   },
 };

@@ -3,5 +3,5 @@
     </div>
 </template>
 <style scoped>
-@import url('../../css/base/style.css');
+@import url('../../assets/css/base/style.css');
 </style>
