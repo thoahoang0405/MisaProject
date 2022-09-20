@@ -80,6 +80,7 @@
   margin-top: 8px;
   margin-left: 4px;
 }
+
 .icon-drop-after {
 }
 button.action-multiple p {
@@ -162,12 +163,7 @@ button.action-multiple:hover {
 .icon-refresh:hover {
   background: url("../../img/Sprites.64af8f61.svg") no-repeat -1097px -88px;
 }
-/* #refresh{
-    width: 30px;
-    height: 30px;
-    z-index: 2;
-    cursor: pointer;
-} */
+
 .icon-excel {
   background: url("../../img/Sprites.64af8f61.svg") no-repeat -704px -200px;
   width: 24px;
@@ -204,6 +200,18 @@ button.action-multiple:hover {
   background-color: #222;
   color: #fff;
 }
+.Dob::placeholder{
+  color: rgb(250, 249, 249) !important;
+}
+.noti {
+  background-color: #444;
+  color: #f1f1f1;
+  padding: 4px 8px;
+  position: absolute;
+  z-index: 4;
+  margin-left: 32px;
+  border-radius: 5px;
+}
 .icon-excel:hover {
   background: url("../../img/Sprites.64af8f61.svg") no-repeat -704px -256px;
 }
@@ -221,6 +229,7 @@ button.action-multiple:hover {
 
   /* overflow:scroll; */
 }
+
 table {
   color: #111;
   width: auto;
@@ -230,7 +239,22 @@ table {
 }
 tbody tr td {
   color: #111;
+ 
+  max-width: 155px !important;
 }
+tbody tr td .td-item{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+tbody tr td span{
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  max-width: 155px !important;
+ 
+}
+
 tbody tr:hover {
   background-color: #f2f9ff !important;
 }
@@ -300,6 +324,7 @@ td {
   text-align: left;
   height: 44px;
   box-sizing: border-box;
+  
 }
 .sticky-left-top {
   position: sticky;

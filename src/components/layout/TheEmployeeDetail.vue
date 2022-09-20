@@ -1,6 +1,6 @@
 <template>
   <div id="dialog" class="dialog">
-    <div class="dialog-form" @keyup.esc="closeForm" @keyup.ctrl.shift.s.exact="btnAddAndSave"
+    <div class="dialog-form" @keyup.esc="closeForm" @keyup.ctrl.f8="btnAddAndSave"
       @keyup.ctrl.f9="btnCloseOnclick" @keyup.enter="btnSave">
       <div class="form-header">
         <div class="form-header-left">
@@ -27,24 +27,25 @@
                 <label for="Code">{{ infoEmployee.empCode }}
                   <p style="color: red; margin-left: 4px">*</p>
                 </label>
-                <input class="Code" v-model="employee.EmployeeCode" @blur="blurInput" placeholder="Mã nhân viên"
-                  type="text" title="Mã không được bỏ trống" propname="EmployeeCode" id="Code" name="Mã" required=""
-                  ref="txtEmployeeCode" />
+                <input class="Code" v-model="employee.EmployeeCode" @blur="blurInput" :placeholder=" infoEmployee.empCode"
+                  type="text" ref="txtEmployeeCode"  :title="infoEmployee.titleCode" propname="EmployeeCode" id="Code" name="Mã" 
+               />
               </div>
               <div class="input-content EmpName">
                 <label for="Name">{{ infoEmployee.empName }}
                   <p style="color: red; margin-left: 4px">*</p>
                 </label>
-                <input type="text" @blur="blurInput" placeholder="Tên nhân viên" ref="txtEmployeeName"
-                  title="Tên không được bỏ trống" v-model="employee.EmployeeName" propname="FullName" id="Name"
+                <input type="text" @blur="blurInput" :placeholder=" infoEmployee.empName" ref="txtEmployeeName"
+                  :title="infoEmployee.titleName" v-model="employee.EmployeeName" propname="FullName" id="Name"
                   name="Tên" class="Name" required="" />
               </div>
             </div>
             <div class="m-row">
-              <div class="input-content EmpUnit">
-                <label for="Unit">{{ infoEmployee.department }}
+              <div class=" EmpUnit input-content">
+                <label for="Unit" class="label">{{ infoEmployee.department }}
                   <p style="color: red; margin-left: 4px">*</p>
                 </label>
+
                 <InputCombobox @newDepartmentName="newDepartmentName" @dpmId="dpmId"
                   :Department="employee.DepartmentName">
                 </InputCombobox>
@@ -53,17 +54,22 @@
             <div class="m-row">
               <div class="input-content" :value="employee.PositionId">
                 <label for="PosName">{{ infoEmployee.positionName }} </label>
-                <input placeholder="Chức danh" v-model="employee.PositionName" type="text" id="PositionName"
+                <input :placeholder="infoEmployee.positionName" v-model="employee.PositionName" type="text" id="PositionName"
                   propname="PositionName" class="PosName" />
               </div>
             </div>
           </div>
           <div class="item-right">
             <div class="m-row">
-              <div class="input-content">
-                <label for="Dob">{{ infoEmployee.dob }}</label>
+              <div class="">
+                <label class="label" for="Dob">{{ infoEmployee.dob }}</label>
 
-                <input class="Dob" type="date" v-model="employee.DateOfBirth" />
+                <div class="block">
+                  <el-date-picker
+                    style=" width:160px !important ; font-size: 13px; font-weight:100; margin-right: 10px;"
+                    v-model="employee.DateOfBirth" type="date" placeholder="dd/mm/yyyy" format="DD/MM/YYYY" />
+                </div>
+               
               </div>
               <div class="input-content">
                 <label for="Gender">{{ infoEmployee.gender }}</label>
@@ -83,19 +89,23 @@
             </div>
             <div class="m-row">
               <div class="input-content Iden">
-                <label for="IdenNum">{{ infoEmployee.idenNumber }}</label>
-                <input class="IdenNum" placeholder="Số cmnd" type="text" v-model="employee.IdentityNumber"
-                  title="Số chứng minh nhân dân" />
+                <label for="IdenNum" :title="infoEmployee.titleIdent">{{ infoEmployee.idenNumber }}</label>
+                <input class="IdenNum" :title="infoEmployee.titleIdent" :placeholder="infoEmployee.idenNumber" type="text"
+                  v-model="employee.IdentityNumber" />
               </div>
-              <div class="input-content">
-                <label for="IdenDate">{{ infoEmployee.idenDate }}</label>
-                <input class="IdenDate" placeholder="Ngày cấp" type="date" v-model="employee.IdentityDate" />
+              <div class="">
+                <label class="label" for="IdenDate">{{ infoEmployee.idenDate }}</label>
+                <div class="block">
+                  <el-date-picker style=" width:160px !important ; font-size: 13px; font-weight:100"
+                    v-model="employee.IdentityDate" type="date" placeholder="dd/mm/yyyy" format="DD/MM/YYYY" />
+                </div>
+
               </div>
             </div>
             <div class="m-row">
               <div class="input-content">
                 <label for="IdenPlace">{{ infoEmployee.idenPlace }}</label>
-                <input placeholder="Nơi cấp" type="text" v-model="employee.IdentityPlace" propname="IdentityPlace"
+                <input :placeholder="infoEmployee.idenPlace" type="text" v-model="employee.IdentityPlace" propname="IdentityPlace"
                   class="IdenPlace" />
               </div>
             </div>
@@ -104,24 +114,24 @@
         <div class="m-row">
           <div class="input-content">
             <label for="Address">{{ infoEmployee.address }}</label>
-            <input placeholder="Địa chỉ" type="text" v-model="employee.Address" propname="Address" id="Address"
+            <input :placeholder="infoEmployee.address" type="text" v-model="employee.Address" propname="Address" id="Address"
               class="Address" />
           </div>
         </div>
         <div class="m-row">
           <div class="input-content">
             <label for="mobile-phone" class="mobile-phone">{{ infoEmployee.mobilePhone }}</label>
-            <input placeholder="Điện thoại di động" type="text" id="mobile-phone" v-model="employee.PhoneNumber"
+            <input :placeholder="infoEmployee.mobilePhone" type="text" id="mobile-phone" v-model="employee.PhoneNumber"
               class="mobile-phone" />
           </div>
           <div class="input-content">
             <label for="phone" class="phone">{{ infoEmployee.lineLandPhone }}</label>
-            <input placeholder="Điện thoại cố định" v-model="employee.LandlinePhone" type="text" id="phone"
+            <input :placeholder="infoEmployee.lineLandPhone" v-model="employee.LandlinePhone" type="text" id="phone"
               class="phone" />
           </div>
           <div class="input-content">
             <label for="Email" class="Email">{{ infoEmployee.email }}</label>
-            <input placeholder="Email" type="text" id="Email" @blur="validateEmail" class="Email"
+            <input :placeholder="infoEmployee.email" type="text" id="Email" @blur="validateEmail" class="Email"
               v-model="employee.Email" />
             <div class="red" style="margin-left: 8px">{{ emailError }}</div>
           </div>
@@ -129,16 +139,16 @@
         <div class="m-row">
           <div class="input-content">
             <label for="BankName" class="BankName">{{ infoEmployee.bankName }}</label>
-            <input placeholder="Tên ngân hàng" v-model="employee.BankName" type="text" id="BankName" class="BankName" />
+            <input :placeholder="infoEmployee.bankName" v-model="employee.BankName" type="text" id="BankName" class="BankName" />
           </div>
           <div class="input-content">
             <label for="BankPlace" class="BankPlace">{{ infoEmployee.bankBranch }}</label>
-            <input placeholder="Chi nhánh tài khoản ngân hàng" v-model="employee.BankBranch" type="text" id="BankPlace"
+            <input :placeholder="infoEmployee.bankBranch" v-model="employee.BankBranch" type="text" id="BankPlace"
               class="BankPlace" />
           </div>
           <div class="input-content">
             <label for="BankNum" class="BankNum">{{ infoEmployee.bankAccount }}</label>
-            <input placeholder="Số tài khoản" v-model="employee.BankAccount" type="text" id="BankNum" class="BankNum" />
+            <input :placeholder="infoEmployee.bankAccount" v-model="employee.BankAccount" type="text" id="BankNum" class="BankNum" />
           </div>
         </div>
       </div>
@@ -147,10 +157,10 @@
           {{ btn.btnCancel }}
         </button>
         <div class="btn-right">
-          <button id="btn-store" title="Cất (Enter)" @click="btnSave" class="btn-store">
+          <button id="btn-store" title="Cất ( Enter )" @click="btnSave" class="btn-store">
             {{ btn.btnSave }}
           </button>
-          <button id="btn-stor-add" @click="btnAddAndSave" title="Cất và thêm (Ctrl + Shift + S)" class="btn-stor-add">
+          <button id="btn-stor-add" @click="btnAddAndSave" title="Cất và thêm (Ctrl + F8)" class="btn-stor-add">
             {{ btn.btnSaveAdd }}
           </button>
         </div>
@@ -180,7 +190,15 @@ import { useToast } from "vue-toastification";
 import Msg from "../../utils/common";
 import { employeeApi } from "../../store/api";
 import $ from "jquery";
-import { FormMode } from "../../utils/enumeration"
+import { FormMode } from "../../utils/enumeration";
+import {
+  ElDatePicker,
+
+} from "element-plus/dist/index.full.js";
+import 'element-plus/es/components/message/style/css'
+import "vue-datepicker-next/index.css";
+import "vue-datepicker-next/locale/vi";
+
 
 export default {
   components: {
@@ -188,6 +206,7 @@ export default {
     InputCombobox,
     MsgExist,
     MsgWarning,
+    ElDatePicker,
 
   },
   data() {
@@ -221,6 +240,7 @@ export default {
       newEmpCode: "",
       formModeRepli: null,
       employees: {},
+      departments: {},
     };
   },
   props: [
@@ -235,7 +255,13 @@ export default {
     "employeeDetailAdd",
     "formRepli"
   ],
-  computed: {},
+
+  mounted() {
+   
+    document.getElementsByTagName("input")[0].focus()
+   
+  },
+ 
   watch: {
     /**
      *
@@ -244,12 +270,10 @@ export default {
      *
      */
     employeeDetail: function (value) {
-      this.$refs.txtEmployeeCode.focus()
+    
       this.employee = value
-      value.DateOfBirth = this.fomartDate(value.DateOfBirth);
-      value.IdentityDate = this.fomartDate(value.IdentityDate);
-      this.employee.IdentityDate = value.IdentityDate;
-      this.employee.DateOfBirth = value.DateOfBirth;
+      this.employee.EmployeeCode= value.EmployeeCode
+      this.$refs.txtEmployeeCode.focus();
       this.oldEmp = { ...value };
     },
     /**
@@ -263,13 +287,29 @@ export default {
     },
     /**
      *
+     * lấy độ dài
+     *  Authors: HTTHOA(17/09/2022)
+     *
+     */
+    validateMaxLength(value, propName) {
+      if (this.property[propName].length > value) {
+        this.message[propName] = `phải nhỏ hơn ${value} kí tự`
+        return false;
+      }
+      this.message[propName] = "";
+      return true;
+    },
+    /**
+     *
      * hàm code mới
      *  Authors: HTTHOA(09/09/2022)
      *
      */
     empNewCodeRepli: function (value) {
       this.employee.EmployeeCode = value
+      this.$refs.txtEmployeeCode.focus();
     },
+
     /**
      *
      * hàm lấy dữ liệu từ bảng lên form khi nhân bản
@@ -277,12 +317,9 @@ export default {
      *
      */
     employeeDetailAdd: function (value) {
-      this.$refs.txtEmployeeCode.focus()
+      
       this.employee = value
-      value.DateOfBirth = this.fomartDate(value.DateOfBirth);
-      value.IdentityDate = this.fomartDate(value.IdentityDate);
-      this.employee.DateOfBirth = value.DateOfBirth;
-      this.employee.IdentityDate = value.IdentityDate;
+
     },
     /**
      *
@@ -293,39 +330,22 @@ export default {
       this.newCode = value;
       this.employee.EmployeeCode = value;
       this.$refs.txtEmployeeCode.focus();
+     
+     
     },
   },
   methods: {
+
     /**
-     * 
-     * validate ngày tháng năm đưa lên form chi tiết
-     AUTHOR: HTTHOA (14/08/2022)
-      */
-    fomartDate(date) {
-      try {
-        if (date) {
-          date = new Date(date);
-          let newDate = date.getDate();
-          let month = date.getMonth() + 1;
-          let year = date.getFullYear();
-          newDate = newDate < 10 ? `0${newDate}` : newDate;
-          month = month < 10 ? `0${month}` : month;
-          return `${year}-${month}-${newDate}`;
-        }
-      } catch (error) {
-        return "";
-      }
-    },
-    /**
-     * validate
-     * AUTHOR: HTTHOA (10/08/2022)
+     * validate dữ liệu
+     * AUTHOR: HTTHOA(10/08/2022)
      */
+
     validate() {
       this.message = [];
       if (!this.employee.EmployeeCode) {
         this.push.message(Msg.ErrorCode);
         this.showMsgRequired(true);
-        this.$refs.txtEmployeeCode.focus()
         this.isValid = true;
       } else {
         this.isValid = false;
@@ -333,7 +353,6 @@ export default {
       if (!this.employee.EmployeeName) {
         this.message.push(Msg.ErrorName);
         this.showMsgRequired(true);
-        this.$refs.txtEmployeeName.focus()
         this.isValid = true;
       } else {
         this.isValid = false;
@@ -341,7 +360,6 @@ export default {
       if (!this.employee.DepartmentName) {
         this.message.push(Msg.ErrorDepartment);
         this.showMsgRequired(true);
-        this.$refs.txtDepartmentName.focus()
         this.isValid = true;
       } else {
         this.isValid = false;
@@ -363,7 +381,9 @@ export default {
      */
     showMsgRequired(value) {
       this.isMsgRequired = value;
-      document.getElementsByClassName("input-error")[0].focus()
+      if (document.getElementsByClassName("input-error")) {
+        document.getElementsByClassName("input-error")[0].focus()
+      }
     },
     /**
      *
@@ -428,8 +448,14 @@ export default {
                 }
               }
             })
-            .catch(function (response) {
-              toast.error(Msg.Error, { timeout: 2000 });
+            .catch(function (res) {
+              if (res.response.status == 404) {
+                toast.error(Msg.ErrorNotFound, { timeout: 4000 });
+              } else {
+                if (res.response.status == 500) {
+                  toast.error(Msg.Error500, { timeout: 4000 });
+                }
+              }
             });
           me.MsgExist = me.employee.EmployeeCode;
         }
@@ -459,9 +485,19 @@ export default {
           .then(function (res) {
             me.newEmpCode = res.data;
             me.employee.EmployeeCode = res.data;
+            this.$refs.txtEmployeeCode.focus()
           })
-          .catch(function (response) {
-            toast.error(Msg.Error, { timeout: 2000 });
+          .catch(function (res) {
+            if (res.response.status == 404) {
+
+              toast.error(Msg.ErrorNotFound, { timeout: 4000 });
+
+
+            } else {
+              if (res.response.status == 500) {
+                toast.error(Msg.Error500, { timeout: 4000 });
+              }
+            }
           });
       } catch (error) {
         console.log(error)
@@ -513,7 +549,7 @@ export default {
           this.$emit("showDialog", true);
         }
         const toast = useToast();
-        if (this.isValid == false) {
+        if (!this.isValid) {
           if (this.formMode == FormMode.Add) {
             axios
               .post(`${employeeApi}`, me.employee)
@@ -525,14 +561,26 @@ export default {
                 else {
                   toast.success(Msg.InsertSuccess, { timeout: 2000 });
                   me.$emit("showDialog", false);
+                  me.loadData()
                 }
               })
-              .catch(function () {
-                toast.error(Msg.Error, { timeout: 2000 });
+              .catch(function (res) {
+                if (res.response.status == 400) {
+                  if (me.isValid == true) {
+                    toast.error(Msg.ErrorClient, { timeout: 4000 });
+                  }
+                } else {
+                  if (res.response.status == 500) {
+                    toast.error(Msg.Error500, { timeout: 4000 });
+                  }
+                }
+
               });
-            me.loadData()
+
           }
           else {
+            
+            me.getEmployeeExist();
             axios
               .put(
                 `${employeeApi}${me.employee.EmployeeID}`,
@@ -543,8 +591,16 @@ export default {
                 me.$emit("showDialog", false);
                 me.loadData()
               })
-              .catch(function () {
-                toast.error(Msg.Error, { timeout: 2000 });
+              .catch(function (res) {
+                if (res.response.status == 400) {
+                  if (me.isValid == true) {
+                    toast.error(Msg.ErrorClient, { timeout: 4000 });
+                  }
+                } else {
+                  if (res.response.status == 500) {
+                    toast.error(Msg.Error500, { timeout: 4000 });
+                  }
+                }
               });
           }
         }
@@ -577,13 +633,23 @@ export default {
                 me.employee = {};
                 me.getNewEmployeeCode();
                 me.employee.EmployeeCode = me.newCode;
-                me.$refs.txtEmployeeCode.focus();
+              
+                me.loadData();
               })
-              .catch(function () {
-                toast.error(Msg.Error, { timeout: 2000 });
+              .catch(function (res) {
+                if (res.response.status == 400) {
+                  if (me.isValid == true) {
+                    toast.error(Msg.ErrorClient, { timeout: 4000 });
+                  }
+                } else {
+                  if (res.response.status == 500) {
+                    toast.error(Msg.Error500, { timeout: 4000 });
+                  }
+                }
               });
-            me.loadData();
+
           } else {
+           
             axios
               .put(
                 `${employeeApi}${me.employee.EmployeeID}`,
@@ -593,9 +659,19 @@ export default {
                 toast.info(Msg.EditSuccess, { timeout: 2000 });
                 me.loadData()
               })
-              .catch(function () {
-                toast.error(Msg.Error, { timeout: 2000 });
+              .catch(function (res) {
+
+                if (res.response.status == 400) {
+                  if (me.isValid == true) {
+                    toast.error(Msg.ErrorClient, { timeout: 4000 });
+                  }
+                } else {
+                  if (res.response.status == 500) {
+                    toast.error(Msg.Error500, { timeout: 4000 });
+                  }
+                }
               });
+           
           }
         }
       } catch (error) {
@@ -607,7 +683,7 @@ export default {
     * AUTHOR: HTTHOA(10/08/2022)
     */
     btnSave() {
-      this.getBorderRed()
+
       this.showLoading(true);
       this.saveData();
       this.showLoading(false);
@@ -619,6 +695,7 @@ export default {
      *
      */
     btnAddAndSave() {
+
       this.EmployeeCode = this.newCode
       this.saveAndAddData();
     },
@@ -629,15 +706,23 @@ export default {
     btnCloseOnclick() {
       if (this.formModeRepli == FormMode.Replication) {
         this.$emit("showDialog", false);
+        this.removeBorder();
       } else {
         let checkEmp =
           JSON.stringify(this.oldEmp) === JSON.stringify(this.employee);
         if (checkEmp) {
           this.$emit("showDialog", false);
+          this.removeBorder();
         } else {
           this.isShowMsgWarning = true;
         }
       }
+    },
+    removeBorder(){
+      $(".dialog").find("input.input-error").toArray().forEach(item =>{
+      $(item).removeClass("input-error")
+    });
+
     },
     /**
      *
@@ -647,6 +732,7 @@ export default {
      */
     closeForm() {
       this.$emit("showDialog", false);
+      this.removeBorder();
     },
     /**
      *
@@ -656,6 +742,7 @@ export default {
     hideWarnForm(value) {
       this.isShowMsgWarning = value;
       this.$emit("showDialog", false);
+      this.removeBorder();
     },
     /**
      *
@@ -680,6 +767,7 @@ export default {
       this.btnAddAndSave();
       this.isShowMsgWarning = value;
       this.$emit("showDialog", false);
+      this.removeBorder();
     },
   },
 };

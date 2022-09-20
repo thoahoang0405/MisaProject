@@ -1,6 +1,6 @@
 const employees = {
     info: "Nhân Viên",
-    infoEmployee: "Thông Tin Nhân Viên",
+    infoEmployee: "Thông tin nhân viên",
     isCustomer: "Là Khách hàng",
     isSupp: "Là Nhà Cung Cấp",
     empCode: "Mã nhân viên",
@@ -30,7 +30,10 @@ const employees = {
     after: "Sau",
     func: "chức năng",
     pageSize: "bản ghi trên 1 trang",
-    MessageConfirmDelete: 'Bạn có muốn xóa dữ liệu nhân viên {employeeCode} không?'
+    titleCode:"Mã nhân viên không được bỏ trống",
+    titleName:"Tên nhân viên không được bỏ trống",
+    titleDepartmentName:"Đơn vị  không được bỏ trống",
+    titleIdent: "Số chứng minh nhân dân"
 
 
 }

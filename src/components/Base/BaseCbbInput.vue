@@ -24,7 +24,9 @@ import $ from "jquery";
 import { useToast } from "vue-toastification";
 import Msg from "../../utils/common"
 import { departmentApi } from "../../store/api";
+
 export default {
+
   data() {
     return {
       departments: {},
@@ -59,7 +61,15 @@ export default {
           me.departments = res.data;
         })
         .catch(function (res) {
-          toast.error(Msg.Error, { timeout: 2000 });
+          if (res.response.status == 404) {
+
+            toast.error(Msg.ErrorNotFound, { timeout: 4000 });
+
+          } else {
+            if (res.response.status == 500) {
+              toast.error(Msg.Error500, { timeout: 4000 });
+            }
+          }
         });
     } catch (error) {
       console.log(error);
@@ -99,11 +109,11 @@ export default {
      * blur qua input nếu rỗng thì hiện border đỏ
      * AUTHOR: HTTHOA(05/08/2022)
      */
-    blurInput() {
-      // this.isShowOption=!this.isShowOption
+    blurInput(event) {
       var value = event.currentTarget.value;
       if (!value) {
         this.$refs.txtDepartmentName.classList.add("input-error");
+
       }
     },
   },
@@ -130,14 +140,36 @@ export default {
 </script>
 <style scoped>
 @import url("../../assets/css/base/style.css");
+
 @font-face {
   font-family: misa_fonts;
   src: url(../../assets/fonts/notosans-regular.2cb88a13.woff2);
 }
+
 font-awesome-icon {
   width: 18px;
   height: 18px;
 }
+
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background-color: var(el-color-success-dark-2) !important;
+  font-family: misa_fonts;
+  font-size: 13px;
+}
+
+.el-select-dropdown {
+  height: 140px;
+  overflow-y: auto;
+  font-family: misa_fonts;
+  font-size: 13px;
+}
+
+.comboboxDepart {
+  font-family: misa_fonts;
+  font-size: 13px;
+}
+
 .cbbDepartment {
   font-family: misa_fonts;
   font-size: 13px;
@@ -149,6 +181,7 @@ font-awesome-icon {
   position: relative;
   line-height: 32px;
 }
+
 .cbbDepartment input {
   height: 100%;
   width: 100%;
@@ -157,6 +190,7 @@ font-awesome-icon {
   font-family: misa_fonts;
   margin-left: 0;
 }
+
 .btn-cbb {
   position: absolute;
   width: 30px;
@@ -169,15 +203,18 @@ font-awesome-icon {
   align-items: center;
   cursor: pointer;
 }
+
 .btn-cbb:hover {
   background-color: #b8bcc3;
 }
+
 .icon-cbb {
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -564px -365px;
   width: 8px;
   height: 5px;
   margin: 0 auto;
 }
+
 .option-cbb {
   position: absolute;
   width: 392px;
@@ -186,40 +223,50 @@ font-awesome-icon {
   background-color: #fff;
   border-radius: 2px;
 }
+
 .icon-check {
   /* background: url('../../assets/icon/check-solid.svg') no-repeat 10px center; */
   color: #fff !important;
   width: 18px;
   height: 18px;
 }
+
 .option-cbb::-webkit-scrollbar {
   display: none;
 }
+
 .option-cbb table {
   width: 392px;
 }
+
 .option-cbb {
   overflow-y: auto;
   height: 200px;
 }
+
 .act {
   background-color: #35bf22;
   color: #f4f5f8;
 }
+
 .option-cbb-item:hover {
-  color: #f4f5f8;
-  background-color: #35bf22;
+  background-color: #E3E5E8;
+  color:#44A637 ;
   cursor: pointer;
 }
+
 .option-cbb-item:hover .icon-check {
   color: #35bf22;
 }
+
 .option-cbb table tr td {
   border-right: none !important;
 }
+
 .option-cbb td:last-child {
   /* border-bottom: none !important; */
 }
+
 .option-cbb table tr th {
   text-align: left;
 }

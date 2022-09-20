@@ -9,7 +9,10 @@ const Common = {
     ErrorCode: "Mã không được trống",
     ErrorDepartment: "Đơn vị không được trống",
     ErrorEmail: "email không đúng định dạng",
-    MsgDelete: "Bạn có thực sự muốn xóa những nhân viên đã chọn không?"
+    MsgDelete: "Bạn có thực sự muốn xóa những nhân viên đã chọn không?",
+    Error500: "Lỗi trong quá trình xử lý.Lỗi máy chủ",
+    ErrorClient:  "Dữ liệu không hợp lệ",
+    ErrorNotFound: "Không tìm thấy dữ liệu"
 
 }
 export default Common

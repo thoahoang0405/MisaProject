@@ -59,7 +59,7 @@ export default {
      * nhận mảng employee được truyền từ cha để xóa
      * AUTHOR:HTTHOA(12/08/2022)
      */
-    employeeDelete: function(value) {
+    employeeDelete: function (value) {
       this.Employees = value;
     },
     /**
@@ -126,8 +126,14 @@ export default {
         .then(function (res) {
           me.newCode = res.data;
         })
-        .catch(function (response) {
-          toast.error(Msg.Error, { timeout: 2000 });
+        .catch(function (res) {
+          if (res.response.status == 404) {
+            toast.error(Msg.ErrorClient, { timeout: 4000 });
+          } else {
+            if (res.response.status == 500) {
+              toast.error(Msg.Error500, { timeout: 4000 });
+            }
+          }
         });
     },
     /**
@@ -179,8 +185,16 @@ export default {
             toast.warning(Msg.DeleteSuccess, { timeout: 2000 });
             me.loadData();
           })
-          .catch(function () {
-            toast.error(Msg.Error, { timeout: 2000 });
+          .catch(function (res) {
+            if (res.response.status == 400) {
+
+              toast.error(Msg.ErrorClient, { timeout: 4000 });
+
+            } else {
+              if (res.response.status == 500) {
+                toast.error(Msg.Error500, { timeout: 4000 });
+              }
+            }
           });
       } catch (error) {
         console.log(error);
@@ -208,9 +222,11 @@ export default {
   border: 1px solid #babec5;
   z-index: 6;
 }
+
 .item-func {
   padding: 6px;
 }
+
 .item-func:hover {
   background-color: #eee;
   color: #2f9d22;

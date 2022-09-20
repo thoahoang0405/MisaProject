@@ -15,6 +15,7 @@
               <div ref="iconDrop" class="icon-drop" v-bind="iconDrop"></div>
             </button>
             <button v-show="isShowBtnDelete" @click="btnDelete" class="delete-multiple">Xóa</button>
+            <div class="noti" v-show="isShowMsgDL">Bạn cần chọn bản ghi trước</div>
           </div>
           <div class="main-header-right">
             <input v-model="txtSearch" @keyup.enter="btnSearch" ref="txtsearch" type="text"
@@ -68,7 +69,7 @@
                     }}</span>
                   </div>
                 </th>
-              
+
                 <th class="iden-tool" colspan="6" style="min-width: 150px" title="Số chứng minh nhân dân">
                   <div class="th-item">
                     <span class="table-text text-align-center">{{
@@ -125,14 +126,14 @@
                 </td>
                 <td colspan="2">
                   <div class="td-item">
-                    <span class="table-text text-align-center">{{
+                    <span class="table-text text-align-center" >{{
                     employee.EmployeeCode
                     }}</span>
                   </div>
                 </td>
                 <td colspan="3">
                   <div class="td-item">
-                    <span class="table-text">{{ employee.EmployeeName }}</span>
+                    <span class="table-text" :title=" employee.EmployeeName">{{ employee.EmployeeName }}</span>
                   </div>
                 </td>
                 <td colspan="4">
@@ -147,7 +148,7 @@
                     }}</span>
                   </div>
                 </td>
-                
+
                 <td colspan="6">
                   <div class="td-item">
                     <span class="table-text">{{ employee.IdentityNumber }}</span>
@@ -155,7 +156,7 @@
                 </td>
                 <td colspan="7">
                   <div class="td-item">
-                    <span class="table-text">{{ employee.PositionName }}</span>
+                    <span class="table-text"  :title="employee.PositionName">{{ employee.PositionName }}</span>
                   </div>
                 </td>
                 <td colspan="8">
@@ -183,8 +184,9 @@
                   <div @click="editOnclick(employee)" class="edit-text">
                     {{ btn.editBtn }}
                   </div>
-                  <button ref="btnMenu" id="btnMenu" @click="showMenu($event)" > <div
-                      class="icon-down"></div> </button>
+                  <button ref="btnMenu" id="btnMenu" @click="showMenu($event)">
+                    <div class="icon-down"></div>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -319,7 +321,7 @@ export default {
     DropFunction,
     Paginate,
     MsgDelete,
-    
+
   },
   data() {
     return {
@@ -332,6 +334,7 @@ export default {
       isBorderActive: "",
       btn: btn,
       Msg: Msg,
+      isShowMsgDL: false,
       infoEmployee: info,
       employeeDelete: {},
       isShowMenu: false,
@@ -346,7 +349,7 @@ export default {
       employeeSelected: {},
       date: null,
       employees: [],
-      pageDefault: 10,
+      pageDefault: 20,
       employeeCode: "",
       isShowMsgDelete: false,
       empCode: [],
@@ -382,16 +385,16 @@ export default {
         me.hidePaging()
       }
       if ($(e.target).attr("id") !== "btnMenu" && $(e.target).attr("class") !== "item-func" && !$(".dialog").has(e.target).length && $(e.target).attr("class") !== "edit-text") {
-          me.clickOutSideDropMenu()
+        me.clickOutSideDropMenu()
       }
     })
     /**
      * click ra ngoài đóng dropmenu chức năng
      * AUTHOR: HTTHOA(7/09/2022)
      */
- 
-     
-   
+
+
+
 
     /**
     * thay đổi màu của icon nút thực hiện hàng loạt khi không chọn dữ liệu
@@ -399,6 +402,7 @@ export default {
     */
     var opacity = this.$refs.iconDrop;
     opacity.classList.add("opacity-icon")
+    
 
   },
   watch: {
@@ -409,6 +413,12 @@ export default {
     pageDefault: function () {
       this.filterEmployee();
     },
+    listEmployeeID: function () {
+      if (this.listEmployeeID.length > 0) {
+        this.isShowMsgDL = false
+      }
+    },
+
     /**
     * theo dõi ô input khi người dùng nhập keyword
     * AUTHOR: HTTHOA(20/08/2022)
@@ -442,8 +452,15 @@ export default {
           .then(function () {
             me.showLoading(false);
           })
-          .catch(function () {
-            toast.error(Msg.Error, { timeout: 2000 });
+          .catch(function (res) {
+
+            if (res.response.status == 404) {
+              toast.error(Msg.ErrorNotFound, { timeout: 4000 });
+            } else {
+
+              toast.error(Msg.Error500, { timeout: 4000 });
+
+            }
           });
       } catch (error) {
         console.log(error);
@@ -521,8 +538,14 @@ export default {
           .then(function (res) {
             me.newCode = res.data;
           })
-          .catch(function (response) {
-            toast.error(Msg.Error, { timeout: 2000 });
+          .catch(function (res) {
+            if (res.response.status == 404) {
+              toast.error(Msg.ErrorNotFound, { timeout: 4000 });
+            } else {
+
+              toast.error(Msg.Error500, { timeout: 4000 });
+
+            }
           });
       } catch (error) {
         console.log(error);
@@ -543,8 +566,13 @@ export default {
      *  Authors: HTTHOA(05/08/2022)
      *
      */
+   
     hideFormDetail(value) {
       this.isShowEmployeeDetail = value;
+    
+    
+      this.filterEmployee();
+      
     },
     /**
      * tìm kiếm
@@ -564,14 +592,23 @@ export default {
           .get(`${employeeApi}ExportExcel?keyword=${this.txtSearch}`)
           .then(function (res) {
           })
-          .catch(function (response) {
-            toast.error(Msg.Error, { timeout: 2000 });
+          .catch(function (res) {
+            if (res.response.statuss == 400) {
+
+              toast.error(Msg.ErrorClient, { timeout: 4000 });
+
+
+            } else {
+
+              toast.error(Msg.Error500, { timeout: 4000 });
+
+            }
           });
       } catch (error) {
         console.log(error);
       }
     },
-   
+
     /**
      *
      * hiển thị vị trí dropdown chức năng xóa
@@ -584,7 +621,7 @@ export default {
       var left = position.left;
       $(".listFunction").css("top", top - 28 + "px");
       $(".listFunction").css("left", left - 270 + "px");
-      this.isShowMenu =  true;
+      this.isShowMenu = true;
 
     },
     /**
@@ -600,7 +637,7 @@ export default {
      * AUTHOR: HTTHOA(7/09/2022)
      */
     clickOutSideDropMenu() {
-      this.isShowMenu=false
+      this.isShowMenu = false
     },
     /**
      *
@@ -619,6 +656,7 @@ export default {
      * AUTHOR: HTTHOA(08/08/2022)
      */
     editOnclick(employee) {
+     
       this.formModeDetail = FormMode.Edit;
       this.functionShowDialog(true);
       this.employeeSelected = employee;
@@ -666,6 +704,7 @@ export default {
         opacity.classList.add("opacity-icon")
       }
     },
+
     /**
      * xử lý check tất cả các hàng khi tích vào ô check box đầu tiên
      * AUTHOR: HTTHOA(30/08/2022)
@@ -705,6 +744,9 @@ export default {
     btnDeleteMultiple() {
       if (this.listEmployeeID.length > 0) {
         this.isShowBtnDelete = true
+        this.isShowMsgDL = false
+      } else {
+        this.isShowMsgDL = !this.isShowMsgDL
       }
     },
     /**
@@ -740,14 +782,19 @@ export default {
         const toast = useToast();
         var me = this;
         axios
-          .put(`${employeeApi}Multiple?ListId=`, this.listEmployeeID)
+          .put(`${employeeApi}Multiple?ListId=`, me.listEmployeeID)
           .then(function () {
             me.showMsgDelete(false);
             toast.warning(Msg.DeleteSuccess, { timeout: 2000 });
             me.getEmployeeAfterDelete();
           })
-          .catch(function () {
-            toast.error(Msg.Error, { timeout: 2000 });
+          .catch(function (res) {
+            if (res.response.status == 400) {
+              toast.error(Msg.ErrorClient, { timeout: 4000 });
+            } else {
+              toast.error(Msg.Error500, { timeout: 4000 });
+
+            }
           });
       } catch (error) {
         console.log(error);
@@ -771,7 +818,6 @@ export default {
         rowCheck[i].classList.remove("row-active")
         check[i].classList.remove("row-active")
         funcCheck[i].classList.remove("row-active")
-
       }
     },
     /**

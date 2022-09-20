@@ -149,6 +149,28 @@ input {
   margin-right: 16px;
   cursor: pointer;
 }
+.el-input__wrapper{
+  box-shadow: 0 0 0 1px #bbb inset  !important;
+  width:160px !important ;
+ 
+}
+.el-input__wrapper::placeholder{
+  color:#bbb !important;
+  font-size: 13px;
+  font-style: italic !important;
+  font-family: misa_fonts !important;
+ 
+}
+table.el-date-table,
+.el-picker-panel.el-date-picker{
+  
+}
+.el-input__inner{
+  color:   #111 !important;
+  font-family: misa_fonts !important;
+  font-size: 13px !important;
+
+}
 .icon-close {
   background: url(../../img/Sprites.64af8f61.svg) no-repeat -147px -147px;
   width: 24px;
@@ -171,7 +193,9 @@ input {
   color: #111;
   margin-bottom: 30px;
 }
-
+.mx-input:hover, .mx-input:focus {
+  border-color: #bbb !important;
+}
 .input-content input {
   border: 1px solid #bbb;
   padding: 8px;
@@ -180,6 +204,11 @@ input {
   outline: none;
 }
 .input-content label {
+  display: flex;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.label{
   display: flex;
   font-weight: bold;
   margin-bottom: 4px;
@@ -312,6 +341,7 @@ input[type="radio"]:checked:after {
 input::placeholder {
   color: #bbb;
   font-style: italic;
+  font-family: misa_fonts;
 }
 .input-content select {
   height: 30px;
